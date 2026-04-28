@@ -1,41 +1,127 @@
 "use client";
 
-import { useRef, useState, type FormEvent, type MouseEvent } from "react";
-import Image from "next/image";
-import { PulsingBorder } from "@paper-design/shaders-react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type FormEvent,
+  type MouseEvent,
+} from "react";
 import { Icon } from "./ui/Icon";
 
-// Two palettes that crossfade by cursor proximity.
-// Base = cool, accent-anchored (always on). Hot = vivid pop (fades in near the border).
-const BASE_COLORS = ["#00b9ec", "#1e3a8a", "#0a4a6a"];
-const HOT_COLORS = ["#00b9ec", "#ff3df0", "#9333ea"];
-
-// Distance (in px) from the form's bounding box at which the hot glow is fully off.
-// Closer than this → hot glow fades in linearly; on/inside the form → fully on.
+// Distance from the form where the liquid halo is fully faded out.
 const PROXIMITY_FALLOFF_PX = 220;
+const clamp = (value: number, min: number, max: number) =>
+  Math.max(min, Math.min(max, value));
 
-type QuickAction = { label: string; icon: string };
+type GlowStyle = CSSProperties & Record<`--${string}`, string>;
 
-const QUICK_ACTIONS: QuickAction[] = [
-  { label: "Write a Newsletter", icon: "bx-news" },
-  { label: "Show Notes", icon: "bx-note" },
-  { label: "Blog Post", icon: "bx-book-content" },
-  { label: "Video Script", icon: "bx-video" },
-  { label: "LinkedIn Post", icon: "bxl-linkedin" },
+const INITIAL_GLOW_STYLE: GlowStyle = {
+  "--glow-x": "50%",
+  "--glow-y": "50%",
+  "--glow-opacity": "0.34",
+  "--glow-scale": "1",
+  "--border-opacity": "0.46",
+  "--border-angle": "135deg",
+};
+
+type QuestionHint = { label: string; icon: string };
+
+const QUESTION_HINTS: QuestionHint[] = [
+  { label: "What can I build?", icon: "bx-message-rounded-dots" },
+  { label: "How much does it cost?", icon: "bx-dollar-circle" },
+  { label: "Browse app examples", icon: "bx-grid-alt" },
+  { label: "How do teams deploy?", icon: "bx-rocket" },
+];
+
+const PROMPT_QUESTIONS = [
+  "How much does RocketRide cost?",
+  "Can RocketRide deploy my first AI pipeline?",
+  "What can I build with RocketRide?",
+  "Does RocketRide work with my existing tools?",
+  "How do teams collaborate inside RocketRide?",
+  "Can I compare different LLMs before shipping?",
+  "Does RocketRide manage API keys for providers?",
+  "How fast can I launch a production AI workflow?",
+  "Can RocketRide turn recordings into content?",
+  "What integrations does RocketRide support?",
+  "Is RocketRide built for enterprise teams?",
+  "Can I monitor pipeline cost and performance?",
+  "How does RocketRide help with agent workflows?",
+  "Can I build without managing cloud infrastructure?",
 ];
 
 export function Hero() {
   const formRef = useRef<HTMLFormElement>(null);
-  const [proximity, setProximity] = useState(0);
+  const glowRef = useRef<HTMLDivElement>(null);
+  const [askValue, setAskValue] = useState("");
+  const [animatedPrompt, setAnimatedPrompt] = useState("");
+  const [promptIndex, setPromptIndex] = useState(0);
+  const [isDeletingPrompt, setIsDeletingPrompt] = useState(false);
+
+  useEffect(() => {
+    const currentPrompt = PROMPT_QUESTIONS[promptIndex];
+    const isComplete = animatedPrompt === currentPrompt;
+    const isEmpty = animatedPrompt.length === 0;
+    const delay = isComplete ? 2200 : isDeletingPrompt ? 24 : 46;
+
+    const timeout = window.setTimeout(() => {
+      if (!isDeletingPrompt && isComplete) {
+        setIsDeletingPrompt(true);
+        return;
+      }
+
+      if (isDeletingPrompt && isEmpty) {
+        setIsDeletingPrompt(false);
+        setPromptIndex((current) => (current + 1) % PROMPT_QUESTIONS.length);
+        return;
+      }
+
+      setAnimatedPrompt((current) =>
+        isDeletingPrompt
+          ? current.slice(0, -1)
+          : currentPrompt.slice(0, current.length + 1),
+      );
+    }, delay);
+
+    return () => window.clearTimeout(timeout);
+  }, [animatedPrompt, isDeletingPrompt, promptIndex]);
 
   const handleMouseMove = (e: MouseEvent<HTMLElement>) => {
     const rect = formRef.current?.getBoundingClientRect();
-    if (!rect) return;
+    const glowEl = glowRef.current;
+    if (!rect || !glowEl) return;
+
     const dx = Math.max(rect.left - e.clientX, 0, e.clientX - rect.right);
     const dy = Math.max(rect.top - e.clientY, 0, e.clientY - rect.bottom);
     const distance = Math.sqrt(dx * dx + dy * dy);
     const next = Math.max(0, Math.min(1, 1 - distance / PROXIMITY_FALLOFF_PX));
-    setProximity(next);
+    const x = clamp(((e.clientX - rect.left) / rect.width) * 100, -10, 110);
+    const y = clamp(((e.clientY - rect.top) / rect.height) * 100, -20, 120);
+    const angle =
+      Math.atan2(
+        e.clientY - (rect.top + rect.height / 2),
+        e.clientX - (rect.left + rect.width / 2),
+      ) *
+        (180 / Math.PI) +
+      90;
+
+    glowEl.style.setProperty("--glow-x", `${x}%`);
+    glowEl.style.setProperty("--glow-y", `${y}%`);
+    glowEl.style.setProperty("--glow-opacity", `${0.32 + next * 0.58}`);
+    glowEl.style.setProperty("--glow-scale", `${0.98 + next * 0.06}`);
+    glowEl.style.setProperty("--border-opacity", `${0.42 + next * 0.5}`);
+    glowEl.style.setProperty("--border-angle", `${angle}deg`);
+  };
+
+  const handleMouseLeave = () => {
+    const glowEl = glowRef.current;
+    if (!glowEl) return;
+
+    glowEl.style.setProperty("--glow-opacity", "0.34");
+    glowEl.style.setProperty("--glow-scale", "1");
+    glowEl.style.setProperty("--border-opacity", "0.46");
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => e.preventDefault();
@@ -44,150 +130,98 @@ export function Hero() {
   return (
     <section
       onMouseMove={handleMouseMove}
-      className="relative overflow-hidden bg-bg min-h-[calc(100vh-80px)] flex items-center justify-center"
+      onMouseLeave={handleMouseLeave}
+      className="relative overflow-hidden bg-bg flex min-h-[410px] items-center justify-center pt-24 pb-6 sm:min-h-[440px]"
     >
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 w-full">
         <div className="flex flex-col items-center justify-center text-center">
-          {/* Logo orb */}
-          <div className="relative z-10 mb-5 h-[52px] w-[52px] rounded-[10px] bg-icon-tile border-steel-dark shadow-[0_0_40px_var(--color-accent-glow),inset_0_1px_0_rgba(255,255,255,0.08)] flex items-center justify-center">
-            <Image
-              src="/RockerRide-icon-transparent-white.svg"
-              alt="RocketRide"
-              width={32}
-              height={32}
-              className="h-[60%] w-[60%] object-contain opacity-90"
-              priority
-            />
+          <div className="relative z-10 mb-7 max-w-[760px] text-center">
+            <h1 className="text-4xl font-semibold tracking-tight text-text sm:text-5xl">
+              Welcome to RocketRide.
+            </h1>
+            <p className="mx-auto mt-4 max-w-[680px] text-base leading-relaxed text-text-muted sm:text-lg">
+              Browse apps built with RocketRide, or ask the site directly and
+              get answers without digging through pages.
+            </p>
           </div>
 
-          {/* Greeting row */}
-          <div className="relative z-10 mb-6 flex items-center justify-center gap-2">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-[10px] bg-icon-tile border-steel-dark">
-              <Icon name="bx-edit" className="text-sm text-text-muted" />
-            </span>
-            <span className="text-lg font-medium text-text-muted">
-              Good afternoon
-            </span>
-          </div>
-
-          {/* Chat form + shader glow */}
-          <div className="relative w-full max-w-[640px]">
-            {/* Two PulsingBorder layers, crossfaded by proximity. */}
+          {/* Chat form + cursor-reactive liquid glow */}
+          <div
+            ref={glowRef}
+            className="group relative w-full max-w-[640px]"
+            style={INITIAL_GLOW_STYLE}
+          >
             <div
               aria-hidden
-              className="pointer-events-none absolute -inset-3 z-0"
-            >
-              {/* Base glow — always on, cool cyan. */}
-              <div className="absolute inset-0">
-                <PulsingBorder
-                  colors={BASE_COLORS}
-                  colorBack="rgba(0,0,0,0)"
-                  roundness={0.08}
-                  thickness={0.08}
-                  softness={0.85}
-                  intensity={0.5}
-                  bloom={0.7}
-                  spots={3}
-                  spotSize={0.4}
-                  pulse={0.15}
-                  smoke={0}
-                  smokeSize={0}
-                  speed={0.4}
-                  style={{ width: "100%", height: "100%" }}
-                />
-              </div>
-              {/* Hot glow — opacity follows cursor proximity. */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  opacity: proximity,
-                  transition: "opacity 180ms ease-out",
-                }}
-              >
-                <PulsingBorder
-                  colors={HOT_COLORS}
-                  colorBack="rgba(0,0,0,0)"
-                  roundness={0.08}
-                  thickness={0.12}
-                  softness={0.8}
-                  intensity={0.7}
-                  bloom={0.9}
-                  spots={4}
-                  spotSize={0.45}
-                  pulse={0.3}
-                  smoke={0}
-                  smokeSize={0}
-                  speed={0.7}
-                  style={{ width: "100%", height: "100%" }}
-                />
-              </div>
-            </div>
+              className="pointer-events-none absolute -inset-10 z-0 rounded-[30px] blur-2xl opacity-[var(--glow-opacity)] transition-[opacity,transform] duration-200 ease-out group-focus-within:opacity-0"
+              style={{
+                transform: "scale(var(--glow-scale))",
+                background:
+                  "radial-gradient(220px 115px at var(--glow-x) var(--glow-y), rgba(111, 67, 255, 0.72), transparent 62%), radial-gradient(260px 120px at calc(var(--glow-x) + 16%) calc(var(--glow-y) + 14%), rgba(0, 185, 236, 0.5), transparent 66%), radial-gradient(190px 105px at calc(var(--glow-x) - 18%) calc(var(--glow-y) + 22%), rgba(168, 85, 247, 0.38), transparent 68%)",
+              }}
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -inset-[2px] z-[1] rounded-[12px] opacity-[var(--border-opacity)] blur-[1px] transition-opacity duration-200 ease-out group-focus-within:opacity-0"
+              style={{
+                background:
+                  "conic-gradient(from var(--border-angle), rgba(0, 185, 236, 0.08), rgba(111, 67, 255, 0.95), rgba(59, 130, 246, 0.88), rgba(0, 185, 236, 0.85), rgba(147, 51, 234, 0.95), rgba(0, 185, 236, 0.08))",
+              }}
+            />
 
             <form
               ref={formRef}
               onSubmit={handleSubmit}
-              className="relative z-10 w-full rounded-[10px] border-steel px-4 py-3 shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
+              className="relative z-10 w-full rounded-[10px] border-steel px-4 py-4 shadow-[0_20px_60px_rgba(0,0,0,0.5)] transition-shadow duration-200 focus-within:shadow-[0_0_0_1px_rgba(0,185,236,0.55),0_0_28px_rgba(0,185,236,0.14),0_20px_60px_rgba(0,0,0,0.5)]"
             >
-              {/* Top row: inner chips */}
-              <div className="flex flex-wrap items-center gap-2">
-                <button
-                  type="button"
-                  onClick={preventDefault}
-                  className="inline-flex items-center gap-1.5 rounded-[10px] bg-icon-tile border border-border-strong px-3 py-1.5 text-xs text-text-muted hover:text-text hover:bg-surface-2 transition-colors"
-                >
-                  <Icon name="bx-upload" className="text-sm" />
-                  Upload Recording
-                </button>
-                <button
-                  type="button"
-                  onClick={preventDefault}
-                  className="inline-flex items-center gap-1.5 rounded-[10px] bg-icon-tile border border-border-strong px-3 py-1.5 text-xs text-text-muted hover:text-text hover:bg-surface-2 transition-colors"
-                >
-                  <Icon name="bx-layer" className="text-sm" />
-                  Select space
-                  <Icon name="bx-chevron-down" className="text-sm" />
-                </button>
-                <button
-                  type="button"
-                  onClick={preventDefault}
-                  className="inline-flex items-center gap-1.5 rounded-[10px] bg-icon-tile border border-border-strong px-3 py-1.5 text-xs text-text-muted hover:text-text hover:bg-surface-2 transition-colors"
-                >
-                  <Icon name="bx-play-circle" className="text-sm" />
-                  No recording selected
-                  <Icon name="bx-chevron-down" className="text-sm" />
-                </button>
-              </div>
-
-              {/* Main input row */}
-              <div className="mt-3">
+              <div className="flex min-h-[82px] flex-col justify-between gap-4">
                 <label htmlFor="hero-ask" className="sr-only">
                   Ask RocketRide
                 </label>
-                <input
-                  id="hero-ask"
-                  type="text"
-                  placeholder="Type to create content ex: blog post, newsletter…"
-                  className="w-full bg-transparent text-text placeholder:text-text-dim text-base outline-none border-none"
-                  autoComplete="off"
-                />
-              </div>
+                <div className="relative">
+                  {!askValue && (
+                    <div
+                      aria-hidden
+                      className="pointer-events-none absolute inset-x-0 top-0 flex min-w-0 items-center text-left text-base text-text-dim"
+                    >
+                      <span className="truncate">{animatedPrompt}</span>
+                      <span className="ml-0.5 h-5 w-px shrink-0 animate-pulse bg-text-muted" />
+                    </div>
+                  )}
+                  <input
+                    id="hero-ask"
+                    type="text"
+                    value={askValue}
+                    onChange={(e) => setAskValue(e.target.value)}
+                    className="relative w-full bg-transparent text-left text-base text-text caret-text outline-none border-none"
+                    autoComplete="off"
+                  />
+                </div>
 
-              {/* Bottom-right generate button */}
-              <div className="mt-3 flex items-center justify-end">
-                <button
-                  type="submit"
-                  className="inline-flex items-center gap-1.5 rounded-[10px] bg-accent text-white px-3 py-1.5 text-xs font-semibold hover:bg-[#00a8d6] transition-colors"
-                >
-                  <Icon name="bx-subdirectory-left" className="text-sm" />
-                  Generate
-                </button>
+                <div className="flex items-center justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={preventDefault}
+                    aria-label="Use microphone"
+                    className="box-border inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] border border-border-strong bg-icon-tile p-0 text-text-muted transition-colors hover:bg-surface-2 hover:text-text"
+                  >
+                    <Icon name="bx-microphone" className="text-lg leading-none" />
+                  </button>
+                  <button
+                    type="submit"
+                    aria-label="Submit question"
+                    className="box-border inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] border border-border-strong bg-accent p-0 text-white transition-colors hover:bg-[#00a8d6]"
+                  >
+                    <Icon name="bx-up-arrow-alt" className="text-lg leading-none" />
+                  </button>
+                </div>
               </div>
             </form>
           </div>
 
-          {/* Quick-action chips row */}
+          {/* Question hint chips row */}
           <div className="relative z-10 mt-5 flex flex-wrap items-center justify-center gap-2">
-            {QUICK_ACTIONS.map((action) => (
+            {QUESTION_HINTS.map((action) => (
               <button
                 key={action.label}
                 type="button"
