@@ -1,6 +1,7 @@
 import { SectionLabel } from "./ui/SectionLabel";
 import { Card } from "./ui/Card";
 import { IconTile } from "./ui/IconTile";
+import { ScrollReveal } from "./ui/ScrollReveal";
 
 const cards = [
   {
@@ -27,7 +28,7 @@ export function ProblemSection() {
   return (
     <section className="relative py-20 sm:py-28">
       <div className="mx-auto max-w-[1286px] px-4 sm:px-6">
-        <div className="mx-auto max-w-[760px] text-center">
+        <ScrollReveal className="mx-auto max-w-[760px] text-center">
           <SectionLabel>The Problem</SectionLabel>
           <h2 className="mt-4 text-4xl font-semibold leading-none tracking-tight sm:text-[44px]">
             <span className="block">AI is fast.</span>
@@ -38,24 +39,23 @@ export function ProblemSection() {
             specifying intent, picking the right tools, evaluating output, and
             keeping it all running reliably.
           </p>
-        </div>
+        </ScrollReveal>
 
         <div className="mt-16 grid grid-cols-1 gap-[29px] md:grid-cols-3">
-          {cards.map((c) => (
-            <Card
-              key={c.title}
-              className="flex min-h-[216px] flex-col justify-between !p-5"
-            >
-              <IconTile name={c.icon} size={58} />
-              <div>
-                <h3 className="text-[22px] font-semibold leading-tight text-white">
-                  {c.title}
-                </h3>
-                <p className="mt-1.5 text-lg leading-tight text-text-muted">
-                  {c.body}
-                </p>
-              </div>
-            </Card>
+          {cards.map((c, index) => (
+            <ScrollReveal key={c.title} delay={index * 110} variant="scale-up">
+              <Card className="flex min-h-[216px] flex-col justify-between !p-5">
+                <IconTile name={c.icon} size={58} />
+                <div>
+                  <h3 className="text-[22px] font-semibold leading-tight text-white">
+                    {c.title}
+                  </h3>
+                  <p className="mt-1.5 text-lg leading-tight text-text-muted">
+                    {c.body}
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
           ))}
         </div>
       </div>

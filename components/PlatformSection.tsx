@@ -1,11 +1,15 @@
 import Image from "next/image";
 import { SectionLabel } from "./ui/SectionLabel";
+import { ScrollReveal } from "./ui/ScrollReveal";
 
 export function PlatformSection() {
   return (
     <section className="relative py-20 sm:py-28">
       <div className="mx-auto max-w-[1286px] px-4 sm:px-6">
-        <div className="border-steel grid min-h-[483px] overflow-hidden rounded-[15px] bg-card lg:grid-cols-[42%_58%]">
+        <ScrollReveal
+          variant="scale-up"
+          className="border-steel grid min-h-[483px] overflow-hidden rounded-[15px] bg-card lg:grid-cols-[42%_58%]"
+        >
           <div className="flex flex-col justify-center px-8 py-12 sm:px-12 lg:px-[50px]">
             <SectionLabel>The Platform</SectionLabel>
             <h2 className="mt-4 max-w-[516px] text-4xl font-semibold leading-none tracking-tight sm:text-[44px]">
@@ -35,7 +39,7 @@ export function PlatformSection() {
               className="absolute bottom-[-12px] left-[7%] w-[120%] max-w-none rounded-[10px] shadow-[0_0_15px_rgba(0,0,0,0.25)] lg:left-[8%]"
             />
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

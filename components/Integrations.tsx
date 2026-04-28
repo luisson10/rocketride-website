@@ -2,6 +2,7 @@ import { SectionLabel } from "./ui/SectionLabel";
 import { Card } from "./ui/Card";
 import { Icon } from "./ui/Icon";
 import { Button } from "./ui/Button";
+import { ScrollReveal } from "./ui/ScrollReveal";
 
 const tools: { name: string; icon: string }[] = [
   { name: "OpenAI", icon: "bx-bot" },
@@ -26,7 +27,8 @@ export function Integrations() {
   return (
     <section id="resources" className="relative py-20 sm:py-28">
       <div className="mx-auto max-w-[1286px] px-4 sm:px-6">
-        <Card className="flex min-h-[490px] flex-col items-center justify-center overflow-hidden rounded-[15px] !p-[15px]">
+        <ScrollReveal variant="scale-up">
+          <Card className="flex min-h-[490px] flex-col items-center justify-center overflow-hidden rounded-[15px] !p-[15px]">
           <div className="max-w-[760px] text-center">
             <SectionLabel>Integrations</SectionLabel>
             <h2 className="mt-4 text-4xl font-semibold leading-none tracking-tight sm:text-[44px]">
@@ -56,7 +58,8 @@ export function Integrations() {
           <Button href="#" variant="primary" size="md" className="mt-1">
             Browse all integrations
           </Button>
-        </Card>
+          </Card>
+        </ScrollReveal>
       </div>
     </section>
   );

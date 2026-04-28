@@ -6,6 +6,7 @@ import { SectionLabel } from "./ui/SectionLabel";
 import { Button } from "./ui/Button";
 import { Icon } from "./ui/Icon";
 import { SegmentedControl } from "./ui/SegmentedControl";
+import { ScrollReveal } from "./ui/ScrollReveal";
 
 const cases = [
   {
@@ -41,7 +42,7 @@ export function UseCases() {
   return (
     <section className="relative py-20 sm:py-28">
       <div className="mx-auto max-w-[1286px] px-4 sm:px-6">
-        <div className="max-w-[650px]">
+        <ScrollReveal className="max-w-[650px]">
           <SectionLabel>Use cases</SectionLabel>
           <h2 className="mt-4 text-4xl font-semibold leading-none tracking-tight sm:text-[44px]">
             <span className="text-accent">One cloud.</span> Every AI workload.
@@ -49,19 +50,23 @@ export function UseCases() {
           <p className="mt-4 max-w-[501px] text-lg leading-tight text-text-dim sm:text-xl">
             From smart chatbots to comparing AI models to keeping documents safe.
           </p>
-        </div>
+        </ScrollReveal>
 
-        <div className="mt-10 overflow-x-auto pb-2">
+        <ScrollReveal delay={90} className="mt-10 overflow-x-auto pb-2">
           <SegmentedControl
             items={cases.map((item) => item.name)}
             active={active}
             onChange={setActive}
             className="min-w-max"
           />
-        </div>
+        </ScrollReveal>
 
         <div className="mt-4">
-          <div className="relative h-[360px] overflow-hidden rounded-[10px] sm:h-[428px]">
+          <ScrollReveal
+            delay={160}
+            variant="scale-up"
+            className="relative h-[360px] overflow-hidden rounded-[10px] sm:h-[428px]"
+          >
             <Image
               src="/figma-assets/starry-mountains.png"
               alt=""
@@ -77,9 +82,12 @@ export function UseCases() {
               height={441}
               className="absolute bottom-[-69px] left-1/2 w-[833px] max-w-[86%] -translate-x-1/2 rounded-[10px] shadow-[0_0_15px_rgba(0,0,0,0.25)]"
             />
-          </div>
+          </ScrollReveal>
 
-          <div className="mt-[25px] flex flex-col gap-5 py-2.5 lg:flex-row lg:items-center lg:gap-[60px]">
+          <ScrollReveal
+            delay={240}
+            className="mt-[25px] flex flex-col gap-5 py-2.5 lg:flex-row lg:items-center lg:gap-[60px]"
+          >
             <p className="flex-1 text-xl leading-tight text-white">
               {current.body}
             </p>
@@ -93,7 +101,7 @@ export function UseCases() {
                 <Icon name="bx-right-arrow-alt" className="text-lg" />
               </Button>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>

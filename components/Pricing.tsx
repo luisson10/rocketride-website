@@ -6,6 +6,7 @@ import { Card } from "./ui/Card";
 import { Badge } from "./ui/Badge";
 import { Icon } from "./ui/Icon";
 import { SegmentedControl } from "./ui/SegmentedControl";
+import { ScrollReveal } from "./ui/ScrollReveal";
 
 type Tier = {
   name: string;
@@ -64,88 +65,91 @@ export function Pricing() {
   return (
     <section id="pricing" className="relative py-20 sm:py-28">
       <div className="mx-auto max-w-[1286px] px-4 sm:px-6">
-        <div>
+        <ScrollReveal>
           <SectionLabel>Pricing</SectionLabel>
           <h2 className="mt-4 text-4xl font-semibold leading-none tracking-tight sm:text-[44px]">
             Scale as you grow
           </h2>
-        </div>
+        </ScrollReveal>
 
-        <div className="mt-10 overflow-x-auto pb-2">
+        <ScrollReveal delay={90} className="mt-10 overflow-x-auto pb-2">
           <SegmentedControl
             items={["Monthly", "Yearly (Save 20%)"]}
             active="Monthly"
             onChange={() => undefined}
             className="min-w-max"
           />
-        </div>
+        </ScrollReveal>
 
         <div className="mt-4 grid grid-cols-1 gap-[15px] lg:grid-cols-3">
-          {tiers.map((t) => (
-            <Card
-              key={t.name}
-              className={
-                "relative flex min-h-[523px] flex-col gap-[15px] !px-[25px] !py-5 " +
-                (t.highlighted ? "shadow-[0_0_40px_rgba(0,185,236,0.12)]" : "")
-              }
-            >
-              {t.highlighted && (
-                <div className="absolute right-6 top-6">
-                  <Badge>Recommended</Badge>
-                </div>
-              )}
-
-              <div>
-                <h3 className="text-[22px] font-semibold leading-tight text-white">
-                  {t.name}
-                </h3>
-                <div className="mt-5 flex items-baseline gap-1">
-                  <span className="text-[30px] font-semibold leading-tight text-white">
-                  {t.price}
-                </span>
-                  {t.priceSuffix && (
-                    <span className="text-[22px] font-semibold leading-tight text-text-dim">
-                      {t.priceSuffix}
-                    </span>
-                  )}
-                </div>
-                <p className="mt-5 text-lg leading-tight text-text-muted">
-                  {t.blurb}
-                </p>
-              </div>
-
-              <Button
-                href="#cta"
-                variant={t.highlighted ? "primary" : "secondary"}
-                size="md"
-                className="w-full"
+          {tiers.map((t, index) => (
+            <ScrollReveal key={t.name} delay={index * 110} variant="scale-up">
+              <Card
+                className={
+                  "relative flex min-h-[523px] flex-col gap-[15px] !px-[25px] !py-5 " +
+                  (t.highlighted
+                    ? "shadow-[0_0_40px_rgba(0,185,236,0.12)]"
+                    : "")
+                }
               >
-                {t.cta}
-              </Button>
+                {t.highlighted && (
+                  <div className="absolute right-6 top-6">
+                    <Badge>Recommended</Badge>
+                  </div>
+                )}
 
-              <div className="flex items-center gap-2 py-1">
-                <div className="h-px flex-1 bg-text-dim/50" />
-                <span className="text-sm font-semibold text-text-dim">
-                  Features
-                </span>
-                <div className="h-px flex-1 bg-text-dim/50" />
-              </div>
+                <div>
+                  <h3 className="text-[22px] font-semibold leading-tight text-white">
+                    {t.name}
+                  </h3>
+                  <div className="mt-5 flex items-baseline gap-1">
+                    <span className="text-[30px] font-semibold leading-tight text-white">
+                      {t.price}
+                    </span>
+                    {t.priceSuffix && (
+                      <span className="text-[22px] font-semibold leading-tight text-text-dim">
+                        {t.priceSuffix}
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-5 text-lg leading-tight text-text-muted">
+                    {t.blurb}
+                  </p>
+                </div>
 
-              <ul className="space-y-2.5">
-                {t.features.map((f) => (
-                  <li
-                    key={f}
-                    className="flex items-center gap-2.5 text-lg leading-tight text-white"
-                  >
-                    <Icon
-                      name="bx-check"
-                      className="shrink-0 text-[17px] leading-none text-white"
-                    />
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
-            </Card>
+                <Button
+                  href="#cta"
+                  variant={t.highlighted ? "primary" : "secondary"}
+                  size="md"
+                  className="w-full"
+                >
+                  {t.cta}
+                </Button>
+
+                <div className="flex items-center gap-2 py-1">
+                  <div className="h-px flex-1 bg-text-dim/50" />
+                  <span className="text-sm font-semibold text-text-dim">
+                    Features
+                  </span>
+                  <div className="h-px flex-1 bg-text-dim/50" />
+                </div>
+
+                <ul className="space-y-2.5">
+                  {t.features.map((f) => (
+                    <li
+                      key={f}
+                      className="flex items-center gap-2.5 text-lg leading-tight text-white"
+                    >
+                      <Icon
+                        name="bx-check"
+                        className="shrink-0 text-[17px] leading-none text-white"
+                      />
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            </ScrollReveal>
           ))}
         </div>
       </div>

@@ -6,6 +6,7 @@ import { SectionLabel } from "./ui/SectionLabel";
 import { Button } from "./ui/Button";
 import { Icon } from "./ui/Icon";
 import { SegmentedControl } from "./ui/SegmentedControl";
+import { ScrollReveal } from "./ui/ScrollReveal";
 
 const tabs = ["IDE Extension", "CLI", "SDK", "MCP Server", "Cloud Builder"];
 
@@ -62,7 +63,7 @@ export function WaysToBuild() {
   return (
     <section className="relative py-20 sm:py-28">
       <div className="mx-auto max-w-[1286px] px-4 sm:px-6">
-        <div className="max-w-[540px]">
+        <ScrollReveal className="max-w-[540px]">
           <SectionLabel>Ways to build</SectionLabel>
           <h2 className="mt-4 text-4xl font-semibold leading-none tracking-tight sm:text-[44px]">
             We meet your team{" "}
@@ -72,19 +73,23 @@ export function WaysToBuild() {
             Work from your code editor, the command line, or inside an agent.
             Same pipelines, same cloud, wherever you build.
           </p>
-        </div>
+        </ScrollReveal>
 
-        <div className="mt-10 overflow-x-auto pb-2">
+        <ScrollReveal delay={90} className="mt-10 overflow-x-auto pb-2">
           <SegmentedControl
             items={tabs}
             active={active}
             onChange={setActive}
             className="min-w-max"
           />
-        </div>
+        </ScrollReveal>
 
         <div className="mt-5 grid grid-cols-1 gap-[50px] lg:grid-cols-[minmax(0,615px)_minmax(0,1fr)]">
-          <div className="relative h-[334px] overflow-hidden rounded-[10px]">
+          <ScrollReveal
+            delay={160}
+            variant="fade-left"
+            className="relative h-[334px] overflow-hidden rounded-[10px]"
+          >
             <Image
               src="/figma-assets/starry-mountains.png"
               alt=""
@@ -100,9 +105,13 @@ export function WaysToBuild() {
               height={441}
               className="absolute bottom-[-134px] left-[27px] w-[833px] max-w-none rounded-[10px] shadow-[0_0_15px_rgba(0,0,0,0.25)]"
             />
-          </div>
+          </ScrollReveal>
 
-          <div className="border-steel flex min-h-[334px] flex-col gap-2.5 rounded-[15px] bg-surface p-2.5">
+          <ScrollReveal
+            delay={240}
+            variant="scale-up"
+            className="border-steel flex min-h-[334px] flex-col gap-2.5 rounded-[15px] bg-surface p-2.5"
+          >
             <div className="flex items-center gap-2.5 px-2.5 py-1.5">
               <Icon name={c.icon} className="text-2xl text-white" />
               <h3 className="min-w-0 flex-1 text-2xl font-semibold leading-tight text-white">
@@ -122,7 +131,7 @@ export function WaysToBuild() {
                 </p>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>
