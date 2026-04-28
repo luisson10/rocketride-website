@@ -45,36 +45,42 @@ const features: Feature[] = [
 
 export function FeaturesGrid() {
   return (
-    <section className="relative py-24 sm:py-32">
-      <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
-        <div className="max-w-3xl">
+    <section className="relative py-20 sm:py-28">
+      <div className="mx-auto max-w-[1286px] px-4 sm:px-6">
+        <div className="max-w-[520px]">
           <SectionLabel>Features</SectionLabel>
-          <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-tight tracking-tight">
-            Built for teams running AI in production.
+          <h2 className="mt-4 text-4xl font-semibold leading-none tracking-tight sm:text-[44px]">
+            Built for teams running{" "}
+            <span className="text-accent">AI in production</span>
           </h2>
-          <p className="mt-5 text-lg sm:text-xl text-text-muted max-w-[720px]">
+          <p className="mt-4 max-w-[459px] text-lg leading-tight text-text-dim sm:text-xl">
             Build, test, and deploy your pipelines with tools that do the work
             for you.
           </p>
         </div>
 
-        <div className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="mt-16 grid grid-cols-1 gap-[15px] md:grid-cols-2 lg:grid-cols-3">
           {features.map((f) => (
-            <Card key={f.title} className="flex flex-col">
-              <IconTile name={f.icon} />
-              <h3 className="mt-5 text-[24px] font-semibold mb-2 text-white">
-                {f.title}
-              </h3>
-              <p className="text-text-muted text-base leading-relaxed flex-1">
-                {f.body}
-              </p>
+            <Card
+              key={f.title}
+              className="group relative flex min-h-[204px] flex-col justify-between !p-5 transition-transform duration-300 hover:-translate-y-1"
+            >
+              <IconTile name={f.icon} size={58} />
               <a
                 href="#"
-                className="mt-5 text-sm text-accent hover:text-accent/80 inline-flex items-center gap-1 self-start"
+                className="absolute right-3 top-2 inline-flex translate-y-1 items-center gap-1 rounded-[10px] px-4 py-2.5 text-lg font-medium text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100"
               >
-                Learn more
-                <Icon name="bx-right-arrow-alt" className="text-base" />
+                <span className="underline">Learn More</span>
+                <Icon name="bx-right-arrow-alt" className="-rotate-45 text-xl" />
               </a>
+              <div>
+                <h3 className="text-[22px] font-semibold leading-tight text-white">
+                  {f.title}
+                </h3>
+                <p className="mt-1.5 text-lg leading-tight text-text-muted">
+                  {f.body}
+                </p>
+              </div>
             </Card>
           ))}
         </div>

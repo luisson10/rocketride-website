@@ -1,22 +1,24 @@
+import Image from "next/image";
 import { SectionLabel } from "./ui/SectionLabel";
-import { Card } from "./ui/Card";
-import { IconTile } from "./ui/IconTile";
 
 const features = [
   {
-    icon: "bx-dollar-circle",
+    image: "/figma-assets/cost-dashboard.png",
+    imageClassName: "left-[8%] top-[8%] w-[150%]",
     title: "Lowest Runtime Cost",
     body:
       "Optimized compute runs your pipelines faster and cheaper than self-hosting. Pay less per token, scale without surprises.",
   },
   {
-    icon: "bx-cloud-upload",
+    image: "/figma-assets/deploy-canvas.png",
+    imageClassName: "left-[-46%] top-[-9%] w-[144%]",
     title: "One-Click Cloud Deploy",
     body:
       "Push from your IDE straight to RocketRide Cloud. Elastic compute, autoscaling, and observability included.",
   },
   {
-    icon: "bx-key",
+    image: "/figma-assets/key-dashboard.png",
+    imageClassName: "left-[7%] top-[-3%] w-[142%]",
     title: "Universal API Key",
     body:
       "One key, every provider. Simplify account management, stop juggling keys. Your bill shrinks as you scale.",
@@ -25,26 +27,45 @@ const features = [
 
 export function CoreFeatures() {
   return (
-    <section id="features" className="relative py-24 sm:py-32">
-      <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
-        <div className="max-w-3xl">
+    <section id="features" className="relative py-20 sm:py-28">
+      <div className="mx-auto max-w-[1286px] px-4 sm:px-6">
+        <div className="max-w-[520px]">
           <SectionLabel>Core features</SectionLabel>
-          <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-tight tracking-tight">
-            From idea to production — AI your team actually owns.
+          <h2 className="mt-4 text-4xl font-semibold leading-none tracking-tight sm:text-[44px]">
+            Production AI, <span className="text-accent">managed for you</span>
           </h2>
+          <p className="mt-4 max-w-[432px] text-lg leading-tight text-text-dim sm:text-xl">
+            From idea to production AI your team actually owns.
+          </p>
         </div>
 
-        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="mt-16 grid grid-cols-1 gap-[29px] md:grid-cols-3">
           {features.map((f) => (
-            <Card key={f.title}>
-              <IconTile name={f.icon} />
-              <h3 className="mt-5 text-[24px] font-semibold mb-2 text-white">
+            <article key={f.title} className="min-w-0">
+              <div className="relative h-[320px] overflow-hidden rounded-[10px] md:h-[365px]">
+                <Image
+                  src="/figma-assets/majestic-nebula.png"
+                  alt=""
+                  fill
+                  sizes="(min-width: 768px) 409px, 100vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-black/25" />
+                <Image
+                  src={f.image}
+                  alt=""
+                  width={668}
+                  height={440}
+                  className={`absolute max-w-none rounded-[10px] ${f.imageClassName}`}
+                />
+              </div>
+              <h3 className="mt-[15px] text-[22px] font-semibold leading-tight text-white">
                 {f.title}
               </h3>
-              <p className="text-text-muted leading-relaxed text-base">
+              <p className="mt-1 text-lg leading-tight text-text-muted">
                 {f.body}
               </p>
-            </Card>
+            </article>
           ))}
         </div>
       </div>

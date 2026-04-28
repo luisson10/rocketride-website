@@ -1,29 +1,42 @@
+import Image from "next/image";
 import { SectionLabel } from "./ui/SectionLabel";
 import { Button } from "./ui/Button";
-import { BookDemoDialog } from "./BookDemoDialog";
+import { Icon } from "./ui/Icon";
 
 export function CtaSection() {
   return (
-    <section id="cta" className="relative py-24 sm:py-32 overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 cta-radial" />
-      <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6">
-        <div className="text-center max-w-3xl mx-auto">
-          <SectionLabel className="mx-auto inline-block">Get started</SectionLabel>
-          <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[52px] font-semibold leading-tight tracking-tight">
-            Your first AI pipeline ships in 4 minutes.
-          </h2>
-          <p className="mt-5 text-lg sm:text-xl text-text-muted">
-            No credit card. No setup call. Just build.
-          </p>
-          <div className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Button href="#" variant="primary" size="lg">
-              Start Building Free
-            </Button>
-            <BookDemoDialog>
-              <Button variant="secondary" size="lg">
-                Book a Demo
+    <section id="cta" className="relative overflow-hidden py-16 sm:py-24">
+      <div className="relative mx-auto max-w-[1286px] px-4 sm:px-6">
+        <div className="border-steel grid min-h-[368px] overflow-hidden rounded-[15px] bg-card lg:grid-cols-[48%_52%]">
+          <div className="flex flex-col justify-center px-8 py-12 sm:px-12 lg:px-[50px]">
+            <SectionLabel>READY FOR LAUNCH</SectionLabel>
+            <h2 className="mt-4 text-4xl font-semibold leading-none tracking-tight sm:text-[44px]">
+              <span className="block">Your first AI pipeline</span>
+              <span className="block text-accent">ships in 4 minutes.</span>
+            </h2>
+            <p className="mt-5 max-w-[406px] text-lg leading-tight text-text-dim sm:text-xl">
+              Spin up a cloud account, connect your first provider, and deploy
+              to production.
+            </p>
+            <div className="mt-6 flex flex-col gap-2.5 sm:flex-row">
+              <Button href="#" variant="primary" size="md">
+                Get started
               </Button>
-            </BookDemoDialog>
+              <Button href="#pricing" variant="secondary" size="md">
+                <Icon name="bx-calendar" className="text-lg" />
+                Contact Us
+              </Button>
+            </div>
+          </div>
+
+          <div className="relative min-h-[260px] lg:min-h-[368px]">
+            <Image
+              src="/figma-assets/launch-dashboard.png"
+              alt="RocketRide launch pipeline dashboard"
+              width={593}
+              height={309}
+              className="absolute left-0 top-[58px] w-[115%] max-w-none rounded-t-[10px] drop-shadow-[0_0_5px_black] lg:w-[593px]"
+            />
           </div>
         </div>
       </div>

@@ -113,7 +113,7 @@ export function AppCarousel() {
     <section className="relative py-10 sm:py-12">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
         <div className="grid grid-cols-[auto_1fr_auto] items-center gap-3 sm:gap-5">
-          <div className="col-start-2 mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div className="col-start-2 mb-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-xl font-semibold tracking-tight text-text">
                 RocketRide AI for everything
