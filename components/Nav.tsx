@@ -87,6 +87,28 @@ function DropdownItemRow({ item }: { item: DropdownItem }) {
   );
 }
 
+function SparklesAltIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden
+    >
+      <path d="M12 3 4 12l8 9 8-9-8-9Z" />
+      <path d="m8.5 12 3.5 4 3.5-4" />
+      <path d="M18.5 3.5v3" />
+      <path d="M17 5h3" />
+      <path d="M21 7.5v2" />
+      <path d="M20 8.5h2" />
+    </svg>
+  );
+}
+
 export function Nav() {
   const [showAskAi, setShowAskAi] = useState(false);
   const [askAiOpen, setAskAiOpen] = useState(false);
@@ -114,8 +136,8 @@ export function Nav() {
 
   return (
     <header className="sticky top-4 z-50 px-4">
-      <div className="mx-auto max-w-[1200px]">
-        <nav className="flex items-center justify-between gap-4 rounded-[10px] border border-border-strong bg-surface/80 backdrop-blur-xl px-4 sm:px-5 py-2.5 shadow-[0_8px_30px_rgba(0,0,0,0.3)]">
+      <div className="mx-auto flex max-w-[1200px] items-stretch gap-3">
+        <nav className="flex h-[58px] min-w-0 flex-1 items-center justify-between gap-4 rounded-[10px] border border-border-strong bg-surface/80 px-4 py-2.5 shadow-[0_8px_30px_rgba(0,0,0,0.3)] backdrop-blur-xl transition-[max-width,transform] duration-200 ease-out sm:px-5">
           <Link
             href="/"
             className="flex items-center gap-2 font-semibold text-base shrink-0"
@@ -193,19 +215,22 @@ export function Nav() {
                 <Icon name="bx-right-arrow-alt" className="text-lg" />
               </Button>
             </GetStartedDialog>
-            {showAskAi && !askAiOpen && (
-              <button
-                type="button"
-                onClick={openAskAi}
-                className="hidden items-center gap-2 rounded-[10px] border border-accent bg-icon-tile px-3 py-1.5 text-sm font-semibold text-text shadow-[0_0_22px_rgba(0,185,236,0.16)] transition-colors hover:bg-surface-2 sm:inline-flex"
-                aria-label="Open Ask AI"
-              >
-                <Icon name="bx-sparkles" className="text-lg text-accent" />
-                Ask AI
-              </button>
-            )}
           </div>
         </nav>
+
+        {showAskAi && !askAiOpen && (
+          <div className="hidden h-[58px] shrink-0 rounded-[10px] border border-border-strong bg-surface/80 p-2 shadow-[0_8px_30px_rgba(0,0,0,0.3)] backdrop-blur-xl [animation:ask-ai-nav-enter_240ms_ease-out] sm:flex">
+            <button
+              type="button"
+              onClick={openAskAi}
+              className="inline-flex h-full items-center gap-2 rounded-[10px] border border-accent bg-icon-tile px-4 text-sm font-bold text-accent shadow-[0_0_22px_rgba(0,185,236,0.16)] transition-colors hover:bg-surface-2 hover:text-text"
+              aria-label="Open Ask AI"
+            >
+              <SparklesAltIcon className="h-5 w-5" />
+              Ask AI
+            </button>
+          </div>
+        )}
       </div>
     </header>
   );

@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <main className="flex-1">
+      <main className="flex-1 bg-icon-tile">
         <AskAiExperience />
         <ProblemSection />
         <PlatformSection />

@@ -305,7 +305,7 @@ export function AskAiExperience() {
 
   return (
     <>
-      <div ref={topExperienceRef}>
+      <div ref={topExperienceRef} className="bg-bg">
         <Hero onAskQuestion={askQuestion} />
         <AppCarousel />
       </div>

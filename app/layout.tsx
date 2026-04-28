@@ -28,7 +28,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-full bg-bg text-text flex flex-col font-sans">
+      <body className="min-h-full bg-icon-tile text-text flex flex-col font-sans">
         {children}
       </body>
     </html>

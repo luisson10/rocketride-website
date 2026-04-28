@@ -34,13 +34,15 @@ export function CtaSection() {
           </div>
 
           <div className="relative min-h-[260px] lg:min-h-[368px]">
-            <Image
-              src="/figma-assets/launch-dashboard.png"
-              alt="RocketRide launch pipeline dashboard"
-              width={593}
-              height={309}
-              className="absolute left-0 top-[58px] w-[115%] max-w-none rounded-t-[10px] drop-shadow-[0_0_5px_black] lg:w-[593px]"
-            />
+            <div className="absolute left-0 top-[58px] aspect-[593/309] w-[115%] max-w-none overflow-hidden rounded-t-[10px] drop-shadow-[0_0_5px_black] lg:w-[593px]">
+              <Image
+                src="/figma-assets/launch-dashboard.png"
+                alt="RocketRide launch pipeline dashboard"
+                fill
+                sizes="(min-width: 1024px) 593px, 115vw"
+                className="object-cover"
+              />
+            </div>
           </div>
         </ScrollReveal>
       </div>
