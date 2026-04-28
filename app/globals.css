@@ -1,0 +1,178 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-bg: #0f0f0f;
+  --color-card: #373737;
+  --color-icon-tile: #1f1f1f;
+  --color-surface: #1a1a1a;
+  --color-surface-2: #232323;
+  --color-border: #2a2a2a;
+  --color-border-strong: #3a3a3a;
+  --color-text: #ffffff;
+  --color-text-muted: #cbcbcb;
+  --color-text-dim: #afafaf;
+  --color-text-label: #616161;
+  --color-accent: #00b9ec;
+  --color-accent-soft: rgba(0, 185, 236, 0.1);
+  --color-accent-glow: rgba(0, 185, 236, 0.35);
+
+  --color-nebula-deep: #0a0520;
+  --color-nebula-purple: #3b1578;
+  --color-nebula-violet: #6b2bd4;
+  --color-nebula-blue: #1e2a8a;
+  --color-nebula-indigo: #4338ca;
+  --color-nebula-glow: rgba(107, 43, 212, 0.35);
+
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+
+  --container-7xl: 1200px;
+}
+
+html,
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #000;
+}
+
+/* Steel gradient border utilities — 1px shiny 45° gradient.
+   The padding-box trick lets us keep a solid fill while the border itself
+   is a gradient. Use the variant whose fill matches the surface you need. */
+.border-steel {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--color-card), var(--color-card)) padding-box,
+    linear-gradient(45deg, #4F4F53 0%, #B1B1B9 50%, #4F4F53 100%) border-box;
+}
+
+.border-steel-dark {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--color-icon-tile), var(--color-icon-tile)) padding-box,
+    linear-gradient(45deg, #4F4F53 0%, #B1B1B9 50%, #4F4F53 100%) border-box;
+}
+
+.border-steel-transparent {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)) padding-box,
+    linear-gradient(45deg, #4F4F53 0%, #B1B1B9 50%, #4F4F53 100%) border-box;
+}
+
+/* Subtle starfield used by the hero. Two layers of small white dots at low opacity. */
+.starfield {
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, rgba(255, 255, 255, 0.5), transparent 50%),
+    radial-gradient(1px 1px at 75% 15%, rgba(255, 255, 255, 0.4), transparent 50%),
+    radial-gradient(1px 1px at 50% 60%, rgba(255, 255, 255, 0.35), transparent 50%),
+    radial-gradient(1.5px 1.5px at 10% 80%, rgba(255, 255, 255, 0.3), transparent 50%),
+    radial-gradient(1px 1px at 90% 70%, rgba(255, 255, 255, 0.4), transparent 50%),
+    radial-gradient(1px 1px at 35% 10%, rgba(255, 255, 255, 0.5), transparent 50%),
+    radial-gradient(1px 1px at 65% 85%, rgba(255, 255, 255, 0.35), transparent 50%),
+    radial-gradient(1px 1px at 45% 45%, rgba(255, 255, 255, 0.25), transparent 50%);
+  background-size: 600px 600px;
+  background-repeat: repeat;
+}
+
+.hero-radial {
+  background:
+    radial-gradient(
+      ellipse 80% 60% at 50% 0%,
+      rgba(0, 185, 236, 0.15),
+      transparent 70%
+    );
+}
+
+.cta-radial {
+  background:
+    radial-gradient(
+      ellipse 60% 60% at 50% 50%,
+      rgba(0, 185, 236, 0.18),
+      transparent 70%
+    );
+}
+
+.vignette {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 50%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+}
+
+.glow-accent {
+  box-shadow: 0 0 80px rgba(0, 185, 236, 0.35);
+}
+
+.glow-accent-sm {
+  box-shadow: 0 0 40px rgba(0, 185, 236, 0.25);
+}
+
+.label-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: 0.04em;
+}
+
+/* shadcn/ui token bridge — coexists with our @theme above.
+   We intentionally OMIT --color-card, --color-accent, --color-background, --color-border
+   from this @theme inline block so our own tokens win. shadcn components that need
+   --background/--foreground/etc still work via the CSS variables defined in :root + .dark. */
+@theme inline {
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-card-foreground: var(--card-foreground);
+  --color-foreground: var(--foreground);
+  --color-accent-foreground: var(--accent-foreground);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+}
+
+/* Site is dark-first; both :root and .dark resolve to the dark palette so shadcn
+   primitives blend in regardless of whether a parent applies the .dark class. */
+:root,
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --radius: 0.625rem;
+}
