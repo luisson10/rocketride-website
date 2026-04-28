@@ -131,7 +131,7 @@ export function Hero() {
     <section
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative overflow-hidden bg-bg flex min-h-[410px] items-center justify-center pt-24 pb-6 sm:min-h-[440px]"
+      className="relative z-10 overflow-visible bg-bg flex min-h-[410px] items-center justify-center pt-24 pb-6 sm:min-h-[440px]"
     >
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 w-full">
         <div className="flex flex-col items-center justify-center text-center">
@@ -153,7 +153,7 @@ export function Hero() {
           >
             <div
               aria-hidden
-              className="pointer-events-none absolute -inset-10 z-0 rounded-[30px] blur-2xl opacity-[var(--glow-opacity)] transition-[opacity,transform] duration-200 ease-out group-focus-within:opacity-0"
+              className="pointer-events-none absolute -inset-10 z-[1] rounded-[30px] blur-2xl opacity-[var(--glow-opacity)] transition-[opacity,transform] duration-200 ease-out group-focus-within:opacity-0"
               style={{
                 transform: "scale(var(--glow-scale))",
                 background:
@@ -162,7 +162,7 @@ export function Hero() {
             />
             <div
               aria-hidden
-              className="pointer-events-none absolute -inset-[2px] z-[1] rounded-[12px] opacity-[var(--border-opacity)] blur-[1px] transition-opacity duration-200 ease-out group-focus-within:opacity-0"
+              className="pointer-events-none absolute -inset-[2px] z-[2] rounded-[12px] opacity-[var(--border-opacity)] blur-[1px] transition-opacity duration-200 ease-out group-focus-within:opacity-0"
               style={{
                 background:
                   "conic-gradient(from var(--border-angle), rgba(0, 185, 236, 0.08), rgba(111, 67, 255, 0.95), rgba(59, 130, 246, 0.88), rgba(0, 185, 236, 0.85), rgba(147, 51, 234, 0.95), rgba(0, 185, 236, 0.08))",
