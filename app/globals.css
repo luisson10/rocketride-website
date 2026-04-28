@@ -41,6 +41,16 @@ body {
   scroll-behavior: smooth;
 }
 
+body {
+  transition: padding-right 200ms ease-out;
+}
+
+@media (min-width: 640px) {
+  .ask-ai-docked-open body {
+    padding-right: 360px;
+  }
+}
+
 * {
   box-sizing: border-box;
 }

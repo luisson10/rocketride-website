@@ -1,6 +1,5 @@
 import { Nav } from "@/components/Nav";
-import { Hero } from "@/components/Hero";
-import { AppCarousel } from "@/components/AppCarousel";
+import { AskAiExperience } from "@/components/AskAiExperience";
 import { ProblemSection } from "@/components/ProblemSection";
 import { PlatformSection } from "@/components/PlatformSection";
 import { CoreFeatures } from "@/components/CoreFeatures";
@@ -17,8 +16,7 @@ export default function Home() {
     <>
       <Nav />
       <main className="flex-1">
-        <Hero />
-        <AppCarousel />
+        <AskAiExperience />
         <ProblemSection />
         <PlatformSection />
         <CoreFeatures />

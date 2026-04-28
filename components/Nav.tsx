@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/Button";
 import { Icon } from "./ui/Icon";
 import { IconTile } from "./ui/IconTile";
@@ -22,6 +23,9 @@ type DropdownItem = {
   title: string;
   description: string;
 };
+
+type AskAiVisibilityEvent = CustomEvent<{ visible: boolean }>;
+type AskAiOpenEvent = CustomEvent<{ open: boolean }>;
 
 const featuresItems: DropdownItem[] = [
   {
@@ -84,6 +88,30 @@ function DropdownItemRow({ item }: { item: DropdownItem }) {
 }
 
 export function Nav() {
+  const [showAskAi, setShowAskAi] = useState(false);
+  const [askAiOpen, setAskAiOpen] = useState(false);
+
+  useEffect(() => {
+    const handleVisibility = (event: Event) => {
+      setShowAskAi((event as AskAiVisibilityEvent).detail.visible);
+    };
+    const handleOpenState = (event: Event) => {
+      setAskAiOpen((event as AskAiOpenEvent).detail.open);
+    };
+
+    window.addEventListener("ask-ai:visibility", handleVisibility);
+    window.addEventListener("ask-ai:open-state", handleOpenState);
+
+    return () => {
+      window.removeEventListener("ask-ai:visibility", handleVisibility);
+      window.removeEventListener("ask-ai:open-state", handleOpenState);
+    };
+  }, []);
+
+  const openAskAi = () => {
+    window.dispatchEvent(new CustomEvent("ask-ai:open"));
+  };
+
   return (
     <header className="sticky top-4 z-50 px-4">
       <div className="mx-auto max-w-[1200px]">
@@ -142,29 +170,40 @@ export function Nav() {
                 </NavigationMenuLink>
               </NavigationMenuItem>
 
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                  <Link href="/design-system">Design System</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
 
           <div className="flex items-center gap-2 shrink-0">
-            <Button
-              href="#contact"
-              variant="secondary"
-              size="sm"
-              className="hidden sm:inline-flex"
+            <a
+              href="https://github.com"
+              target="_blank"
+              rel="noreferrer"
+              className="hidden items-center gap-2 rounded-[10px] px-3 py-1.5 text-sm font-semibold text-text transition-colors hover:bg-icon-tile lg:inline-flex"
             >
-              Contact
-            </Button>
+              <Icon name="bxl-github" className="text-xl" />
+              GitHub
+              <span className="inline-flex items-center gap-1 rounded-[8px] border border-border-strong bg-icon-tile px-2 py-1 text-xs font-medium text-text-muted">
+                <Icon name="bxs-star" className="text-sm text-text-muted" />
+                4.4k
+              </span>
+            </a>
             <GetStartedDialog>
               <Button variant="primary" size="sm">
                 Get Started
                 <Icon name="bx-right-arrow-alt" className="text-lg" />
               </Button>
             </GetStartedDialog>
+            {showAskAi && !askAiOpen && (
+              <button
+                type="button"
+                onClick={openAskAi}
+                className="hidden items-center gap-2 rounded-[10px] border border-accent bg-icon-tile px-3 py-1.5 text-sm font-semibold text-text shadow-[0_0_22px_rgba(0,185,236,0.16)] transition-colors hover:bg-surface-2 sm:inline-flex"
+                aria-label="Open Ask AI"
+              >
+                <Icon name="bx-sparkles" className="text-lg text-accent" />
+                Ask AI
+              </button>
+            )}
           </div>
         </nav>
       </div>

@@ -52,7 +52,11 @@ const PROMPT_QUESTIONS = [
   "Can I build without managing cloud infrastructure?",
 ];
 
-export function Hero() {
+type HeroProps = {
+  onAskQuestion?: (question: string) => void;
+};
+
+export function Hero({ onAskQuestion }: HeroProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
   const [askValue, setAskValue] = useState("");
@@ -124,7 +128,13 @@ export function Hero() {
     glowEl.style.setProperty("--border-opacity", "0.46");
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => e.preventDefault();
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const question = askValue.trim() || animatedPrompt.trim();
+    if (!question) return;
+    onAskQuestion?.(question);
+    setAskValue("");
+  };
   const preventDefault = (e: MouseEvent<HTMLButtonElement>) => e.preventDefault();
 
   return (
@@ -225,7 +235,10 @@ export function Hero() {
               <button
                 key={action.label}
                 type="button"
-                onClick={preventDefault}
+                onClick={(event) => {
+                  event.preventDefault();
+                  onAskQuestion?.(action.label);
+                }}
                 className="inline-flex items-center gap-1.5 rounded-[10px] bg-icon-tile border border-border-strong px-3 py-1.5 text-xs text-text-muted hover:text-text hover:bg-surface-2 transition-colors"
               >
                 <Icon name={action.icon} className="text-sm" />
