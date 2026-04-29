@@ -4,7 +4,11 @@ import Image from "next/image";
 import { useState, type ComponentType } from "react";
 import {
   ArrowRight,
+  Book,
+  Code,
+  Copy,
   Dashboard,
+  Extension,
   NetworkChart,
   Terminal,
   Typescript,
@@ -24,6 +28,7 @@ type CopyItem = {
   icon: ComponentType<BoxIconProps>;
   iconPack?: IconPack;
   cta: string;
+  ctaIcon: ComponentType<BoxIconProps>;
   body: string;
   best: string;
 };
@@ -34,6 +39,7 @@ const copy: Record<string, CopyItem> = {
     icon: Dashboard,
     iconPack: "filled",
     cta: "Get Started",
+    ctaIcon: ArrowRight,
     body:
       "Visual drag-and-drop canvas in the browser. Design, test, and deploy pipelines without installing a thing.",
     best: "Best for: product managers, solution teams, quick prototypes",
@@ -42,6 +48,7 @@ const copy: Record<string, CopyItem> = {
     title: "IDE Extension",
     icon: VisualStudio,
     cta: "Install Extension",
+    ctaIcon: Extension,
     body:
       "Native extension for VS Code, Cursor, Windsurf and Antigravity. Build pipelines inside the editor you already live in.",
     best: "Best for: developers who want AI pipelines next to their code",
@@ -50,6 +57,7 @@ const copy: Record<string, CopyItem> = {
     title: "CLI",
     icon: Terminal,
     cta: "npm install -g",
+    ctaIcon: Code,
     body:
       "Ship pipelines from your terminal. Full deployment, logs, and env management without leaving the shell.",
     best: "Best for: CI/CD workflows, ops, and scripting",
@@ -58,6 +66,7 @@ const copy: Record<string, CopyItem> = {
     title: "SDK",
     icon: Typescript,
     cta: "View Docs",
+    ctaIcon: Book,
     body:
       "TypeScript and Python SDKs to call, compose, and orchestrate pipelines from inside any application.",
     best: "Best for: embedding RocketRide into applications, agents, and services",
@@ -66,6 +75,7 @@ const copy: Record<string, CopyItem> = {
     title: "MCP Server",
     icon: NetworkChart,
     cta: "Copy config",
+    ctaIcon: Copy,
     body:
       "Expose your pipelines as tools any MCP-compatible agent can call. Plug RocketRide into Claude, Cursor, or custom agents.",
     best: "Best for: agentic workflows and multi-agent systems",
@@ -76,6 +86,7 @@ export function WaysToBuild() {
   const [active, setActive] = useState<string>("IDE Extension");
   const c = copy[active];
   const ActiveIcon = c.icon;
+  const CtaIcon = c.ctaIcon;
 
   return (
     <section className="relative py-20 sm:py-28">
@@ -127,25 +138,27 @@ export function WaysToBuild() {
           <ScrollReveal
             delay={240}
             variant="scale-up"
-            className="border-steel flex min-h-[334px] flex-col gap-2.5 rounded-[15px] bg-surface p-2.5"
+            className="border-steel flex min-h-[334px] flex-col gap-3 rounded-[15px] bg-surface p-3"
           >
-            <div className="flex items-center gap-2.5 px-2.5 py-1.5">
-              <ActiveIcon
-                pack={c.iconPack}
-                className="text-2xl text-white"
-                width="1em"
-                height="1em"
-              />
-              <h3 className="min-w-0 flex-1 text-2xl font-semibold leading-tight text-white">
+            <div className="flex items-center gap-3 px-2 py-1">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] bg-icon-tile">
+                <ActiveIcon
+                  pack={c.iconPack}
+                  className="text-[22px] text-white"
+                  width="1em"
+                  height="1em"
+                />
+              </div>
+              <h3 className="min-w-0 flex-1 text-[28px] font-semibold leading-tight text-white">
                 {c.title}
               </h3>
-              <Button href="#cta" variant="primary" size="sm">
+              <Button href="#cta" variant="primary" size="md">
                 {c.cta}
-                <ArrowRight className="text-lg" width="1em" height="1em" />
+                <CtaIcon className="text-lg" width="1em" height="1em" />
               </Button>
             </div>
 
-            <div className="flex flex-1 items-center rounded-[10px] bg-card p-6 sm:p-[25px]">
+            <div className="flex flex-1 items-start rounded-[10px] bg-surface-2 p-7 ring-1 ring-white/[0.04] sm:p-8">
               <div>
                 <p className="text-xl leading-tight text-white">{c.body}</p>
                 <p className="mt-7 text-lg leading-tight text-text-dim">
