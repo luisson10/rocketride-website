@@ -4,7 +4,7 @@ import { SectionLabel } from "./ui/SectionLabel";
 import { Button } from "./ui/Button";
 import { Card } from "./ui/Card";
 import { Badge } from "./ui/Badge";
-import { Icon } from "./ui/Icon";
+import { Check } from "@boxicons/react";
 import { SegmentedControl } from "./ui/SegmentedControl";
 import { ScrollReveal } from "./ui/ScrollReveal";
 
@@ -140,9 +140,10 @@ export function Pricing() {
                       key={f}
                       className="flex items-center gap-2.5 text-lg leading-tight text-white"
                     >
-                      <Icon
-                        name="bx-check"
+                      <Check
                         className="shrink-0 text-[17px] leading-none text-white"
+                        width="1em"
+                        height="1em"
                       />
                       <span>{f}</span>
                     </li>

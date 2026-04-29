@@ -4,11 +4,20 @@ import {
   useEffect,
   useRef,
   useState,
+  type ComponentType,
   type CSSProperties,
   type FormEvent,
   type MouseEvent,
 } from "react";
-import { Icon } from "./ui/Icon";
+import {
+  ArrowUp,
+  DollarCircle,
+  Grid,
+  MessageBubbleDots,
+  Microphone,
+  Rocket,
+  type BoxIconProps,
+} from "@boxicons/react";
 
 // Distance from the form where the liquid halo is fully faded out.
 const PROXIMITY_FALLOFF_PX = 220;
@@ -26,13 +35,13 @@ const INITIAL_GLOW_STYLE: GlowStyle = {
   "--border-angle": "135deg",
 };
 
-type QuestionHint = { label: string; icon: string };
+type QuestionHint = { label: string; icon: ComponentType<BoxIconProps> };
 
 const QUESTION_HINTS: QuestionHint[] = [
-  { label: "What can I build?", icon: "bx-message-rounded-dots" },
-  { label: "How much does it cost?", icon: "bx-dollar-circle" },
-  { label: "Browse app examples", icon: "bx-grid-alt" },
-  { label: "How do teams deploy?", icon: "bx-rocket" },
+  { label: "What can I build?", icon: MessageBubbleDots },
+  { label: "How much does it cost?", icon: DollarCircle },
+  { label: "Browse app examples", icon: Grid },
+  { label: "How do teams deploy?", icon: Rocket },
 ];
 
 const PROMPT_QUESTIONS = [
@@ -215,14 +224,14 @@ export function Hero({ onAskQuestion }: HeroProps) {
                     aria-label="Use microphone"
                     className="box-border inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] border border-border-strong bg-icon-tile p-0 text-text-muted transition-colors hover:bg-surface-2 hover:text-text"
                   >
-                    <Icon name="bx-microphone" className="text-lg leading-none" />
+                    <Microphone className="text-lg leading-none" width="1em" height="1em" />
                   </button>
                   <button
                     type="submit"
                     aria-label="Submit question"
                     className="box-border inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] border border-border-strong bg-accent p-0 text-white transition-colors hover:bg-[#00a8d6]"
                   >
-                    <Icon name="bx-up-arrow-alt" className="text-lg leading-none" />
+                    <ArrowUp className="text-lg leading-none" width="1em" height="1em" />
                   </button>
                 </div>
               </div>
@@ -231,20 +240,23 @@ export function Hero({ onAskQuestion }: HeroProps) {
 
           {/* Question hint chips row */}
           <div className="relative z-10 mt-5 flex flex-wrap items-center justify-center gap-2">
-            {QUESTION_HINTS.map((action) => (
-              <button
-                key={action.label}
-                type="button"
-                onClick={(event) => {
-                  event.preventDefault();
-                  onAskQuestion?.(action.label);
-                }}
-                className="inline-flex items-center gap-1.5 rounded-[10px] bg-icon-tile border border-border-strong px-3 py-1.5 text-xs text-text-muted hover:text-text hover:bg-surface-2 transition-colors"
-              >
-                <Icon name={action.icon} className="text-sm" />
-                {action.label}
-              </button>
-            ))}
+            {QUESTION_HINTS.map((action) => {
+              const HintIcon = action.icon;
+              return (
+                <button
+                  key={action.label}
+                  type="button"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    onAskQuestion?.(action.label);
+                  }}
+                  className="inline-flex items-center gap-1.5 rounded-[10px] bg-icon-tile border border-border-strong px-3 py-1.5 text-xs text-text-muted hover:text-text hover:bg-surface-2 transition-colors"
+                >
+                  <HintIcon className="text-sm" width="1em" height="1em" />
+                  {action.label}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>

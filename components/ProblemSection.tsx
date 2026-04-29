@@ -1,3 +1,4 @@
+import { GitBranch, Shapes, UserCircle } from "@boxicons/react";
 import { SectionLabel } from "./ui/SectionLabel";
 import { Card } from "./ui/Card";
 import { IconTile } from "./ui/IconTile";
@@ -5,22 +6,22 @@ import { ScrollReveal } from "./ui/ScrollReveal";
 
 const cards = [
   {
-    icon: "bx-shapes",
+    icon: Shapes,
     title: "Tool sprawl",
     body:
-      "The AI ecosystem has thousands of models, frameworks, and tools, and it changes weekly. Your team spends more time evaluating than building.",
+      "The AI ecosystem has thousands of tools and changes weekly. Your team spends more time evaluating than building.",
   },
   {
-    icon: "bx-git-branch",
+    icon: GitBranch,
     title: "Prototype to production gap",
     body:
-      "Demos work. Production breaks. What took hours to prototype takes weeks to harden.",
+      "Demos work but production breaks. What took hours to prototype takes weeks to harden.",
   },
   {
-    icon: "bx-user-circle",
+    icon: UserCircle,
     title: "The one person who knows it",
     body:
-      "AI gets built by whoever has the time. When that person leaves, no one else can read the code, debug the agent, or keep it alive.",
+      "AI gets built by whoever has the time. When they leave, no one can read the code or keep it alive.",
   },
 ];
 
@@ -45,7 +46,7 @@ export function ProblemSection() {
           {cards.map((c, index) => (
             <ScrollReveal key={c.title} delay={index * 110} variant="scale-up">
               <Card className="flex min-h-[216px] flex-col justify-between !p-5">
-                <IconTile name={c.icon} size={58} />
+                <IconTile icon={c.icon} size={58} />
                 <div>
                   <h3 className="text-[22px] font-semibold leading-tight text-white">
                     {c.title}

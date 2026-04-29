@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { SectionLabel } from "./ui/SectionLabel";
 import { Button } from "./ui/Button";
-import { Icon } from "./ui/Icon";
+import { Calendar } from "@boxicons/react";
 import { ScrollReveal } from "./ui/ScrollReveal";
 
 export function CtaSection() {
@@ -27,7 +27,7 @@ export function CtaSection() {
                 Get started
               </Button>
               <Button href="#pricing" variant="secondary" size="md">
-                <Icon name="bx-calendar" className="text-lg" />
+                <Calendar className="text-lg" width="1em" height="1em" />
                 Contact Us
               </Button>
             </div>

@@ -1,10 +1,22 @@
 import type { Metadata } from "next";
+import {
+  ArrowRight,
+  BarChart,
+  BoltCircle,
+  Check,
+  Cloud,
+  Code,
+  GitBranch,
+  Rocket,
+  Save,
+  Shield,
+  X,
+} from "@boxicons/react";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { Icon } from "@/components/ui/Icon";
 import { IconTile } from "@/components/ui/IconTile";
 import { Logo } from "@/components/ui/Logo";
 import { SectionLabel } from "@/components/ui/SectionLabel";
@@ -230,7 +242,7 @@ export default function DesignSystemPage() {
                         : "bg-card rounded-[10px] flex items-center justify-center"
                   }`}
                 >
-                  {i === 2 && <IconTile name="bx-rocket" />}
+                  {i === 2 && <IconTile icon={Rocket} />}
                   {i === 3 && <Logo height={22} />}
                 </div>
                 <span className="text-xs text-text-label font-mono">
@@ -293,7 +305,7 @@ export default function DesignSystemPage() {
             <Example title="Variants" code="<Button variant='...' />">
               <Button variant="primary">
                 Primary
-                <Icon name="bx-right-arrow-alt" className="text-lg" />
+                <ArrowRight className="text-lg" width="1em" height="1em" />
               </Button>
               <Button variant="secondary">Secondary</Button>
               <Button variant="ghost">Ghost</Button>
@@ -307,19 +319,19 @@ export default function DesignSystemPage() {
 
             <Example
               title="With icons"
-              code="<Button><Icon name='...' /></Button>"
+              code="<Button><Rocket /></Button>"
             >
               <Button variant="primary">
-                <Icon name="bx-rocket" className="text-lg" />
+                <Rocket className="text-lg" width="1em" height="1em" />
                 Launch
               </Button>
               <Button variant="secondary">
-                <Icon name="bx-download" className="text-lg" />
-                Download
+                <Save className="text-lg" width="1em" height="1em" />
+                Save
               </Button>
               <Button variant="ghost">
                 Learn more
-                <Icon name="bx-right-arrow-alt" className="text-lg" />
+                <ArrowRight className="text-lg" width="1em" height="1em" />
               </Button>
             </Example>
           </div>
@@ -333,7 +345,7 @@ export default function DesignSystemPage() {
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Card>
-              <IconTile name="bx-bolt-circle" />
+              <IconTile icon={BoltCircle} />
               <h3 className="mt-5 text-lg font-semibold">Standard card</h3>
               <p className="mt-2 text-sm text-text-dim">
                 Icon tile + heading + copy. This is the pattern used across
@@ -358,7 +370,7 @@ export default function DesignSystemPage() {
               <div className="mt-6">
                 <Button variant="primary" size="sm">
                   Start now
-                  <Icon name="bx-right-arrow-alt" className="text-lg" />
+                  <ArrowRight className="text-lg" width="1em" height="1em" />
                 </Button>
               </div>
             </Card>
@@ -383,24 +395,31 @@ export default function DesignSystemPage() {
         {/* Components — Icon & IconTile */}
         <Section
           label="Components"
-          title="Icon & IconTile"
-          description="Icons come from Boxicons (CDN link loaded in layout.tsx). IconTile wraps an icon in a 48×48 bg-icon-tile square with 10px radius — NEVER a circle."
+          title="Icons & IconTile"
+          description="Icons come from @boxicons/react — import each icon as a named React component. IconTile wraps an icon in a 48×48 bg-icon-tile square with 10px radius — NEVER a circle."
         >
           <div className="grid gap-6">
-            <Example title="Icon sizes" code="<Icon name='bx-*' />">
-              <Icon name="bx-rocket" className="text-lg" />
-              <Icon name="bx-rocket" className="text-2xl" />
-              <Icon name="bx-rocket" className="text-3xl" />
-              <Icon name="bx-rocket" className="text-4xl text-accent" />
+            <Example
+              title="Icon sizes"
+              code="import { Rocket } from '@boxicons/react'"
+            >
+              <Rocket className="text-lg" width="1em" height="1em" />
+              <Rocket className="text-2xl" width="1em" height="1em" />
+              <Rocket className="text-3xl" width="1em" height="1em" />
+              <Rocket
+                className="text-4xl text-accent"
+                width="1em"
+                height="1em"
+              />
             </Example>
 
-            <Example title="IconTile" code="<IconTile name='bx-*' />">
-              <IconTile name="bx-bolt-circle" />
-              <IconTile name="bx-code-block" />
-              <IconTile name="bx-shield" />
-              <IconTile name="bx-chart" />
-              <IconTile name="bx-git-branch" />
-              <IconTile name="bx-cloud" />
+            <Example title="IconTile" code="<IconTile icon={Rocket} />">
+              <IconTile icon={BoltCircle} />
+              <IconTile icon={Code} />
+              <IconTile icon={Shield} />
+              <IconTile icon={BarChart} />
+              <IconTile icon={GitBranch} />
+              <IconTile icon={Cloud} />
             </Example>
           </div>
         </Section>
@@ -506,26 +525,26 @@ export default function DesignSystemPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card>
               <div className="flex items-center gap-2 text-accent font-semibold">
-                <Icon name="bx-check" className="text-xl" />
+                <Check className="text-xl" width="1em" height="1em" />
                 Do
               </div>
               <ul className="mt-4 space-y-2 text-sm text-text-muted list-disc list-inside">
                 <li>Use rounded-[10px] on every surface and control.</li>
                 <li>Use Card for every container.</li>
                 <li>Use IconTile for icon+container patterns.</li>
-                <li>Use Boxicons through the Icon component.</li>
+                <li>Use named imports from @boxicons/react.</li>
                 <li>Use border-steel variants for card outlines.</li>
                 <li>Use Figtree — weights 400/500/600/700.</li>
               </ul>
             </Card>
             <Card>
               <div className="flex items-center gap-2 text-[#ff7a7a] font-semibold">
-                <Icon name="bx-x" className="text-xl" />
+                <X className="text-xl" width="1em" height="1em" />
                 Don&apos;t
               </div>
               <ul className="mt-4 space-y-2 text-sm text-text-muted list-disc list-inside">
                 <li>No rounded-full, no pills, no mixed radii.</li>
-                <li>No emoji or inline SVG icons — Boxicons only.</li>
+                <li>No emoji or inline SVG icons — @boxicons/react only.</li>
                 <li>No raw borders — always use a border-steel variant.</li>
                 <li>No custom shadows outside glow-accent / glow-accent-sm.</li>
                 <li>No new color tokens without updating @theme first.</li>

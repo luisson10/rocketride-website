@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Icon } from "./ui/Icon";
+import { ChevronLeft, ChevronRight } from "@boxicons/react";
 import { ScrollReveal } from "./ui/ScrollReveal";
 
 type App = {
@@ -140,7 +140,7 @@ export function AppCarousel() {
             aria-label="Previous apps"
             className="col-start-1 row-start-2 inline-flex h-10 w-10 items-center justify-center rounded-[5px] border border-border-strong bg-icon-tile text-text-muted shadow-[0_12px_32px_rgba(0,0,0,0.28)] transition-colors hover:bg-surface-2 hover:text-text"
           >
-            <Icon name="bx-chevron-left" className="text-xl" />
+            <ChevronLeft className="text-xl" width="1em" height="1em" />
           </button>
 
           <div className="col-start-2 row-start-2 overflow-hidden">
@@ -167,7 +167,7 @@ export function AppCarousel() {
             aria-label="Next apps"
             className="col-start-3 row-start-2 inline-flex h-10 w-10 items-center justify-center rounded-[5px] border border-border-strong bg-icon-tile text-text-muted shadow-[0_12px_32px_rgba(0,0,0,0.28)] transition-colors hover:bg-surface-2 hover:text-text"
           >
-            <Icon name="bx-chevron-right" className="text-xl" />
+            <ChevronRight className="text-xl" width="1em" height="1em" />
           </button>
 
           <div className="col-start-2 mt-6 flex items-center justify-center gap-2">

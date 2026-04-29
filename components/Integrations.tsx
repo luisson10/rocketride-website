@@ -1,24 +1,43 @@
+import type { ComponentType } from "react";
+import {
+  Aws,
+  Brain,
+  Chip,
+  Cube,
+  Docker,
+  Github,
+  Grid,
+  Link,
+  Message,
+  Package,
+  Python,
+  Robot,
+  Server,
+  Wind,
+  type BoxIconProps,
+} from "@boxicons/react";
 import { SectionLabel } from "./ui/SectionLabel";
 import { Card } from "./ui/Card";
-import { Icon } from "./ui/Icon";
 import { Button } from "./ui/Button";
 import { ScrollReveal } from "./ui/ScrollReveal";
 
-const tools: { name: string; icon: string }[] = [
-  { name: "OpenAI", icon: "bx-bot" },
-  { name: "Anthropic", icon: "bx-brain" },
-  { name: "HuggingFace", icon: "bx-package" },
-  { name: "Pinecone", icon: "bx-cube" },
-  { name: "Weaviate", icon: "bx-grid-alt" },
-  { name: "LangChain", icon: "bx-link" },
-  { name: "IBM Granite", icon: "bx-chip" },
-  { name: "Mistral", icon: "bx-wind" },
-  { name: "Cohere", icon: "bx-conversation" },
-  { name: "Ollama", icon: "bx-server" },
-  { name: "AWS", icon: "bxl-aws" },
-  { name: "Python", icon: "bxl-python" },
-  { name: "Docker", icon: "bxl-docker" },
-  { name: "GitHub", icon: "bxl-github" },
+type Tool = { name: string; icon: ComponentType<BoxIconProps> };
+
+const tools: Tool[] = [
+  { name: "OpenAI", icon: Robot },
+  { name: "Anthropic", icon: Brain },
+  { name: "HuggingFace", icon: Package },
+  { name: "Pinecone", icon: Cube },
+  { name: "Weaviate", icon: Grid },
+  { name: "LangChain", icon: Link },
+  { name: "IBM Granite", icon: Chip },
+  { name: "Mistral", icon: Wind },
+  { name: "Cohere", icon: Message },
+  { name: "Ollama", icon: Server },
+  { name: "AWS", icon: Aws },
+  { name: "Python", icon: Python },
+  { name: "Docker", icon: Docker },
+  { name: "GitHub", icon: Github },
 ];
 
 export function Integrations() {
@@ -42,15 +61,22 @@ export function Integrations() {
 
           <div className="relative mt-8 h-[190px] w-full overflow-hidden">
             <div className="integrations-marquee absolute left-0 top-1/2 flex w-max -translate-y-1/2 gap-[19px] px-12">
-              {marqueeTools.map((tool, index) => (
-                <div
-                  key={`${tool.name}-${index}`}
-                  className="flex h-[83px] w-[81px] shrink-0 items-center justify-center rounded-[11px] bg-white text-[#1f1f1f] shadow-[0_1px_3px_rgba(0,0,0,0.18)]"
-                  title={tool.name}
-                >
-                  <Icon name={tool.icon} className="text-[38px]" />
-                </div>
-              ))}
+              {marqueeTools.map((tool, index) => {
+                const ToolIcon = tool.icon;
+                return (
+                  <div
+                    key={`${tool.name}-${index}`}
+                    className="flex h-[83px] w-[81px] shrink-0 items-center justify-center rounded-[11px] bg-white text-[#1f1f1f] shadow-[0_1px_3px_rgba(0,0,0,0.18)]"
+                    title={tool.name}
+                  >
+                    <ToolIcon
+                      className="text-[38px]"
+                      width="1em"
+                      height="1em"
+                    />
+                  </div>
+                );
+              })}
             </div>
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,#373737_0%,rgba(55,55,55,0.10)_18%,rgba(31,31,31,0)_50%,rgba(55,55,55,0.17)_88%,#373737_100%)]" />
           </div>

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cva } from "class-variance-authority";
 import { NavigationMenu as NavigationMenuPrimitive } from "radix-ui";
+import { ChevronDown } from "@boxicons/react";
 
 import { cn } from "@/lib/utils";
 
@@ -73,8 +74,10 @@ function NavigationMenuTrigger({
       {...props}
     >
       {children}
-      <i
-        className="bx bx-chevron-down ml-1 text-base transition-transform duration-200 group-data-popup-open/navigation-menu-trigger:rotate-180 group-data-open/navigation-menu-trigger:rotate-180"
+      <ChevronDown
+        className="ml-1 text-base transition-transform duration-200 group-data-popup-open/navigation-menu-trigger:rotate-180 group-data-open/navigation-menu-trigger:rotate-180"
+        width="1em"
+        height="1em"
         aria-hidden
       />
     </NavigationMenuPrimitive.Trigger>

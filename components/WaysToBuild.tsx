@@ -1,22 +1,38 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, type ComponentType } from "react";
+import {
+  ArrowRight,
+  Dashboard,
+  NetworkChart,
+  Terminal,
+  Typescript,
+  VisualStudio,
+  type BoxIconProps,
+  type IconPack,
+} from "@boxicons/react";
 import { SectionLabel } from "./ui/SectionLabel";
 import { Button } from "./ui/Button";
-import { Icon } from "./ui/Icon";
 import { SegmentedControl } from "./ui/SegmentedControl";
 import { ScrollReveal } from "./ui/ScrollReveal";
 
 const tabs = ["IDE Extension", "CLI", "SDK", "MCP Server", "Cloud Builder"];
 
-const copy: Record<
-  string,
-  { title: string; icon: string; cta: string; body: string; best: string }
-> = {
+type CopyItem = {
+  title: string;
+  icon: ComponentType<BoxIconProps>;
+  iconPack?: IconPack;
+  cta: string;
+  body: string;
+  best: string;
+};
+
+const copy: Record<string, CopyItem> = {
   "Cloud Builder": {
     title: "Cloud Builder",
-    icon: "bxs-dashboard",
+    icon: Dashboard,
+    iconPack: "filled",
     cta: "Get Started",
     body:
       "Visual drag-and-drop canvas in the browser. Design, test, and deploy pipelines without installing a thing.",
@@ -24,7 +40,7 @@ const copy: Record<
   },
   "IDE Extension": {
     title: "IDE Extension",
-    icon: "bxl-visual-studio",
+    icon: VisualStudio,
     cta: "Install Extension",
     body:
       "Native extension for VS Code, Cursor, Windsurf and Antigravity. Build pipelines inside the editor you already live in.",
@@ -32,7 +48,7 @@ const copy: Record<
   },
   CLI: {
     title: "CLI",
-    icon: "bx-terminal",
+    icon: Terminal,
     cta: "npm install -g",
     body:
       "Ship pipelines from your terminal. Full deployment, logs, and env management without leaving the shell.",
@@ -40,7 +56,7 @@ const copy: Record<
   },
   SDK: {
     title: "SDK",
-    icon: "bxl-typescript",
+    icon: Typescript,
     cta: "View Docs",
     body:
       "TypeScript and Python SDKs to call, compose, and orchestrate pipelines from inside any application.",
@@ -48,7 +64,7 @@ const copy: Record<
   },
   "MCP Server": {
     title: "MCP Server",
-    icon: "bx-network-chart",
+    icon: NetworkChart,
     cta: "Copy config",
     body:
       "Expose your pipelines as tools any MCP-compatible agent can call. Plug RocketRide into Claude, Cursor, or custom agents.",
@@ -59,6 +75,7 @@ const copy: Record<
 export function WaysToBuild() {
   const [active, setActive] = useState<string>("IDE Extension");
   const c = copy[active];
+  const ActiveIcon = c.icon;
 
   return (
     <section className="relative py-20 sm:py-28">
@@ -113,13 +130,18 @@ export function WaysToBuild() {
             className="border-steel flex min-h-[334px] flex-col gap-2.5 rounded-[15px] bg-surface p-2.5"
           >
             <div className="flex items-center gap-2.5 px-2.5 py-1.5">
-              <Icon name={c.icon} className="text-2xl text-white" />
+              <ActiveIcon
+                pack={c.iconPack}
+                className="text-2xl text-white"
+                width="1em"
+                height="1em"
+              />
               <h3 className="min-w-0 flex-1 text-2xl font-semibold leading-tight text-white">
                 {c.title}
               </h3>
               <Button href="#cta" variant="primary" size="sm">
                 {c.cta}
-                <Icon name="bx-right-arrow-alt" className="text-lg" />
+                <ArrowRight className="text-lg" width="1em" height="1em" />
               </Button>
             </div>
 

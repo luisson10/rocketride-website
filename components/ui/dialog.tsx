@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
+import { X } from "@boxicons/react";
 
 import { cn } from "@/lib/utils";
 
@@ -70,7 +71,7 @@ function DialogContent({
             data-slot="dialog-close"
             className="absolute top-4 right-4 inline-flex h-8 w-8 items-center justify-center rounded-[10px] text-text-muted hover:text-white hover:bg-[var(--color-icon-tile)] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
           >
-            <i className="bx bx-x text-2xl" aria-hidden />
+            <X className="text-2xl" width="1em" height="1em" aria-hidden />
             <span className="sr-only">Close</span>
           </DialogPrimitive.Close>
         )}

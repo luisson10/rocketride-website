@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { SectionLabel } from "./ui/SectionLabel";
 import { Button } from "./ui/Button";
-import { Icon } from "./ui/Icon";
+import { ArrowRight, BookOpen } from "@boxicons/react";
 import { SegmentedControl } from "./ui/SegmentedControl";
 import { ScrollReveal } from "./ui/ScrollReveal";
 
@@ -93,12 +93,12 @@ export function UseCases() {
             </p>
             <div className="flex shrink-0 flex-wrap gap-2.5">
               <Button href="#" variant="secondary" size="md">
-                <Icon name="bx-book-open" className="text-lg" />
+                <BookOpen className="text-lg" width="1em" height="1em" />
                 Read more
               </Button>
               <Button href="#cta" variant="primary" size="md">
                 Use Pipeline
-                <Icon name="bx-right-arrow-alt" className="text-lg" />
+                <ArrowRight className="text-lg" width="1em" height="1em" />
               </Button>
             </div>
           </ScrollReveal>

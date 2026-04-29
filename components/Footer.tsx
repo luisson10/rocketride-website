@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { Icon } from "./ui/Icon";
+import type { ComponentType } from "react";
+import {
+  Github,
+  Linkedin,
+  Twitter,
+  type BoxIconProps,
+} from "@boxicons/react";
 import { Logo } from "./ui/Logo";
 
 const cols: { title: string; links: string[] }[] = [
@@ -17,10 +23,16 @@ const cols: { title: string; links: string[] }[] = [
   },
 ];
 
-const socials: { href: string; label: string; icon: string }[] = [
-  { href: "#", label: "GitHub", icon: "bxl-github" },
-  { href: "#", label: "X / Twitter", icon: "bxl-twitter" },
-  { href: "#", label: "LinkedIn", icon: "bxl-linkedin" },
+type Social = {
+  href: string;
+  label: string;
+  icon: ComponentType<BoxIconProps>;
+};
+
+const socials: Social[] = [
+  { href: "#", label: "GitHub", icon: Github },
+  { href: "#", label: "X / Twitter", icon: Twitter },
+  { href: "#", label: "LinkedIn", icon: Linkedin },
 ];
 
 export function Footer() {
@@ -36,16 +48,19 @@ export function Footer() {
               Build AI your whole team can run.
             </p>
             <div className="mt-5 flex items-center gap-2 text-text-muted">
-              {socials.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  aria-label={s.label}
-                  className="w-9 h-9 rounded-[10px] bg-icon-tile flex items-center justify-center hover:text-accent transition-colors"
-                >
-                  <Icon name={s.icon} className="text-lg" />
-                </a>
-              ))}
+              {socials.map((s) => {
+                const SocialIcon = s.icon;
+                return (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    aria-label={s.label}
+                    className="w-9 h-9 rounded-[10px] bg-icon-tile flex items-center justify-center hover:text-accent transition-colors"
+                  >
+                    <SocialIcon className="text-lg" width="1em" height="1em" />
+                  </a>
+                );
+              })}
             </div>
             <p className="mt-6 text-xs text-text-label">© 2026 RocketRide, Inc.</p>
           </div>

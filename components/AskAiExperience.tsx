@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { AppCarousel } from "./AppCarousel";
 import { Hero } from "./Hero";
-import { Icon } from "./ui/Icon";
+import { ArrowRight, ArrowUp, X } from "@boxicons/react";
 
 type Message = {
   id: string;
@@ -125,7 +125,7 @@ function ChatMessage({ message }: { message: Message }) {
             className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-accent/80"
           >
             {message.hrefLabel}
-            <Icon name="bx-right-arrow-alt" className="text-base" />
+            <ArrowRight className="text-base" width="1em" height="1em" />
           </a>
         )}
       </div>
@@ -181,7 +181,7 @@ function AskAiDrawer({ open, messages, onClose, onAsk }: AskAiDrawerProps) {
             aria-label="Close Ask AI"
             className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] text-text-muted transition-colors hover:bg-icon-tile hover:text-text"
           >
-            <Icon name="bx-x" className="text-2xl" />
+            <X className="text-2xl" width="1em" height="1em" />
           </button>
         </div>
         <div className="mt-3 h-px w-full bg-gradient-to-r from-accent/70 via-nebula-violet/50 to-transparent" />
@@ -235,7 +235,7 @@ function AskAiDrawer({ open, messages, onClose, onAsk }: AskAiDrawerProps) {
             aria-label="Send question"
             className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] border border-border-strong bg-accent text-white transition-colors hover:bg-[#00a8d6]"
           >
-            <Icon name="bx-up-arrow-alt" className="text-lg" />
+            <ArrowUp className="text-lg" width="1em" height="1em" />
           </button>
         </div>
       </form>

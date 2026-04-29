@@ -22,12 +22,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`dark ${figtree.variable} h-full antialiased`}>
-      <head>
-        <link
-          href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-          rel="stylesheet"
-        />
-      </head>
       <body className="min-h-full bg-icon-tile text-text flex flex-col font-sans">
         {children}
       </body>
