@@ -19,6 +19,11 @@
   --color-accent-soft: rgba(0, 185, 236, 0.1);
   --color-accent-glow: rgba(0, 185, 236, 0.35);
 
+  /* Alternate accent — used sparingly for "special" highlights (e.g. Ask AI). */
+  --color-violet: #8b5cf6;
+  --color-violet-soft: rgba(139, 92, 246, 0.1);
+  --color-violet-glow: rgba(139, 92, 246, 0.45);
+
   --color-nebula-deep: #0a0520;
   --color-nebula-purple: #3b1578;
   --color-nebula-violet: #6b2bd4;

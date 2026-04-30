@@ -18,6 +18,7 @@ import {
   LightBulb,
   News,
   PlugConnect,
+  SparklesAlt,
   Star,
   type BoxIconProps,
 } from "@boxicons/react";
@@ -102,28 +103,6 @@ function DropdownItemRow({ item }: { item: DropdownItem }) {
         </div>
       </Link>
     </NavigationMenuLink>
-  );
-}
-
-function SparklesAltIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden
-    >
-      <path d="M12 3 4 12l8 9 8-9-8-9Z" />
-      <path d="m8.5 12 3.5 4 3.5-4" />
-      <path d="M18.5 3.5v3" />
-      <path d="M17 5h3" />
-      <path d="M21 7.5v2" />
-      <path d="M20 8.5h2" />
-    </svg>
   );
 }
 
@@ -246,10 +225,10 @@ export function Nav() {
             <button
               type="button"
               onClick={openAskAi}
-              className="inline-flex h-full items-center gap-2 rounded-[10px] border border-accent bg-icon-tile px-4 text-sm font-bold text-accent shadow-[0_0_22px_rgba(0,185,236,0.16)] transition-colors hover:bg-surface-2 hover:text-text"
+              className="inline-flex h-full items-center gap-2 rounded-[10px] bg-violet px-5 text-sm font-bold text-white shadow-[0_0_24px_var(--color-violet-glow)] transition-colors hover:bg-[#7c3aed]"
               aria-label="Open Ask AI"
             >
-              <SparklesAltIcon className="h-5 w-5" />
+              <SparklesAlt className="text-xl" width="1em" height="1em" />
               Ask AI
             </button>
           </div>

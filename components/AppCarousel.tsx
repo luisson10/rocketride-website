@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "@boxicons/react";
 import { ScrollReveal } from "./ui/ScrollReveal";
@@ -8,6 +9,7 @@ type App = {
   title: string;
   description: string;
   tags: string[];
+  image?: string;
 };
 
 const APPS: App[] = [
@@ -15,31 +17,37 @@ const APPS: App[] = [
     title: "Brandy",
     description: "Image recognition tool for surfacing your brand within any video",
     tags: ["Video", "LLM"],
+    image: "/carousel-hero/Brandy.png",
   },
   {
     title: "Clipsmith",
     description: "Turn raw recordings into short clips, show notes, and social posts",
     tags: ["Content", "Video"],
+    image: "/carousel-hero/Clipsmith.png",
   },
   {
     title: "Signal Desk",
     description: "Monitor customer conversations and route insights to your team",
     tags: ["Analytics", "AI"],
+    image: "/carousel-hero/Signal Desk.png",
   },
   {
     title: "Launch Notes",
     description: "Generate changelog drafts and launch updates from product work",
     tags: ["Workflow", "Content"],
+    image: "/carousel-hero/Launch Notes.png",
   },
   {
     title: "Support Pilot",
     description: "Build a knowledge-aware support assistant your team can tune",
     tags: ["Support", "Agent"],
+    image: "/carousel-hero/Support Pilot.png",
   },
   {
     title: "Model Arena",
     description: "Compare model responses side by side before shipping a pipeline",
     tags: ["Eval", "LLM"],
+    image: "/carousel-hero/Model Arena.png",
   },
   {
     title: "Doc Forge",
@@ -64,21 +72,33 @@ function AppCard({ app }: { app: App }) {
   return (
     <div className="overflow-hidden rounded-[10px] border border-border-strong bg-icon-tile p-2.5 shadow-[0_16px_40px_rgba(0,0,0,0.26)]">
       <div className="grid grid-cols-[44%_1fr] gap-3">
-        <div
-          className="relative min-h-[96px] overflow-hidden rounded-[8px] border border-white/10"
-          style={{
-            background:
-              "radial-gradient(circle at 18% 8%, rgba(168, 85, 247, 0.55), transparent 28%), radial-gradient(circle at 92% 18%, rgba(0, 185, 236, 0.28), transparent 32%), linear-gradient(135deg, rgba(15,15,15,0.2), rgba(31,31,31,0.92))",
-          }}
-        >
-          <div className="absolute inset-x-4 bottom-3 top-5 rounded-[6px] bg-white/94 shadow-[0_10px_28px_rgba(0,0,0,0.35)]">
-            <div className="absolute left-3 right-3 top-1/2 h-px bg-nebula-violet/30" />
-            <div className="absolute bottom-4 left-3 right-4 h-px rotate-[-8deg] bg-nebula-violet/40" />
-            <span className="absolute left-3 top-[52%] h-1.5 w-1.5 rounded-full bg-nebula-violet" />
-            <span className="absolute left-[48%] top-[46%] h-1.5 w-1.5 rounded-full bg-nebula-violet" />
-            <span className="absolute right-4 bottom-4 h-1.5 w-1.5 rounded-full bg-nebula-violet" />
+        {app.image ? (
+          <div className="relative min-h-[96px] overflow-hidden rounded-[8px] border border-white/10">
+            <Image
+              src={app.image}
+              alt={`${app.title} preview`}
+              fill
+              sizes="(min-width: 768px) 200px, 44vw"
+              className="object-cover"
+            />
           </div>
-        </div>
+        ) : (
+          <div
+            className="relative min-h-[96px] overflow-hidden rounded-[8px] border border-white/10"
+            style={{
+              background:
+                "radial-gradient(circle at 18% 8%, rgba(168, 85, 247, 0.55), transparent 28%), radial-gradient(circle at 92% 18%, rgba(0, 185, 236, 0.28), transparent 32%), linear-gradient(135deg, rgba(15,15,15,0.2), rgba(31,31,31,0.92))",
+            }}
+          >
+            <div className="absolute inset-x-4 bottom-3 top-5 rounded-[6px] bg-white/94 shadow-[0_10px_28px_rgba(0,0,0,0.35)]">
+              <div className="absolute left-3 right-3 top-1/2 h-px bg-nebula-violet/30" />
+              <div className="absolute bottom-4 left-3 right-4 h-px rotate-[-8deg] bg-nebula-violet/40" />
+              <span className="absolute left-3 top-[52%] h-1.5 w-1.5 rounded-full bg-nebula-violet" />
+              <span className="absolute left-[48%] top-[46%] h-1.5 w-1.5 rounded-full bg-nebula-violet" />
+              <span className="absolute right-4 bottom-4 h-1.5 w-1.5 rounded-full bg-nebula-violet" />
+            </div>
+          </div>
+        )}
 
         <div className="min-w-0 py-1 pr-1">
           <h3 className="text-sm font-semibold leading-tight text-text">
