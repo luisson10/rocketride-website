@@ -1,17 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
-import { AppCarousel } from "./AppCarousel";
+import { useCallback, useEffect, useState } from "react";
+import { ChatPanel, type DockState, type Message } from "./ChatPanel";
 import { Hero } from "./Hero";
-import { ArrowRight, ArrowUp, X } from "@boxicons/react";
-
-type Message = {
-  id: string;
-  role: "user" | "assistant";
-  content: string;
-  href?: string;
-  hrefLabel?: string;
-};
 
 type FaqAnswer = {
   match: string[];
@@ -19,13 +10,6 @@ type FaqAnswer = {
   href?: string;
   hrefLabel?: string;
 };
-
-const SUGGESTED_QUESTIONS = [
-  "What can I build?",
-  "How much does RocketRide cost?",
-  "Browse app examples",
-  "How do teams deploy?",
-];
 
 const FAQ_ANSWERS: FaqAnswer[] = [
   {
@@ -106,189 +90,17 @@ function createMessage(role: Message["role"], content: string, answer?: FaqAnswe
   };
 }
 
-function ChatMessage({ message }: { message: Message }) {
-  const isUser = message.role === "user";
-
-  return (
-    <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
-      <div
-        className={`max-w-[88%] rounded-[10px] border px-3 py-2 text-sm leading-relaxed ${
-          isUser
-            ? "border-accent/40 bg-accent/15 text-text"
-            : "border-border-strong bg-icon-tile text-text-muted"
-        }`}
-      >
-        <p>{message.content}</p>
-        {!isUser && message.href && (
-          <a
-            href={message.href}
-            className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-accent hover:text-accent/80"
-          >
-            {message.hrefLabel}
-            <ArrowRight className="text-base" width="1em" height="1em" />
-          </a>
-        )}
-      </div>
-    </div>
-  );
-}
-
-type AskAiDrawerProps = {
-  open: boolean;
-  messages: Message[];
-  onClose: () => void;
-  onAsk: (question: string) => void;
+type AskAiExperienceProps = {
+  fullViewportHero?: boolean;
+  heroBackgroundVideoSrc?: string;
 };
 
-function AskAiDrawer({ open, messages, onClose, onAsk }: AskAiDrawerProps) {
-  const [input, setInput] = useState("");
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    messagesEndRef.current?.scrollIntoView({ block: "end" });
-  }, [messages, open]);
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const question = input.trim();
-    if (!question) return;
-    onAsk(question);
-    setInput("");
-  };
-
-  return (
-    <aside
-      aria-label="Ask AI chat drawer"
-      aria-hidden={!open}
-      className={`fixed right-0 top-0 z-[70] flex h-dvh w-full max-w-full flex-col border-l border-border-strong bg-surface shadow-[-24px_0_80px_rgba(0,0,0,0.45)] transition-[opacity,transform] duration-200 ease-out sm:w-[360px] ${
-        open
-          ? "translate-x-0 opacity-100"
-          : "pointer-events-none translate-x-full opacity-0"
-      }`}
-    >
-      <div className="border-b border-border-strong px-4 py-4">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <p className="text-sm font-semibold text-text">Ask AI</p>
-            <p className="mt-1 text-xs leading-relaxed text-text-muted">
-              Ask about pricing, apps, deployment, and how RocketRide works.
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close Ask AI"
-            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] text-text-muted transition-colors hover:bg-icon-tile hover:text-text"
-          >
-            <X className="text-2xl" width="1em" height="1em" />
-          </button>
-        </div>
-        <div className="mt-3 h-px w-full bg-gradient-to-r from-accent/70 via-nebula-violet/50 to-transparent" />
-      </div>
-
-      <div className="flex-1 overflow-y-auto px-4 py-4">
-        {messages.length === 0 ? (
-          <div className="rounded-[10px] border border-border-strong bg-icon-tile p-4">
-            <p className="text-sm font-medium text-text">Ask me about RocketRide.</p>
-            <p className="mt-2 text-sm leading-relaxed text-text-muted">
-              I can answer questions while you keep browsing the page.
-            </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {SUGGESTED_QUESTIONS.map((question) => (
-                <button
-                  key={question}
-                  type="button"
-                  onClick={() => onAsk(question)}
-                  className="inline-flex items-center rounded-[10px] border border-border-strong bg-surface px-3 py-1.5 text-xs text-text-muted transition-colors hover:bg-surface-2 hover:text-text"
-                >
-                  {question}
-                </button>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {messages.map((message) => (
-              <ChatMessage key={message.id} message={message} />
-            ))}
-            <div ref={messagesEndRef} />
-          </div>
-        )}
-      </div>
-
-      <form onSubmit={handleSubmit} className="border-t border-border-strong p-4">
-        <label htmlFor="ask-ai-drawer-input" className="sr-only">
-          Ask RocketRide
-        </label>
-        <div className="flex items-center gap-2 rounded-[10px] border border-border-strong bg-icon-tile p-2">
-          <input
-            id="ask-ai-drawer-input"
-            value={input}
-            onChange={(event) => setInput(event.target.value)}
-            placeholder="Ask RocketRide..."
-            className="min-w-0 flex-1 bg-transparent px-1 text-sm text-text placeholder:text-text-dim outline-none"
-            autoComplete="off"
-          />
-          <button
-            type="submit"
-            aria-label="Send question"
-            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] border border-border-strong bg-accent text-white transition-colors hover:bg-[#00a8d6]"
-          >
-            <ArrowUp className="text-lg" width="1em" height="1em" />
-          </button>
-        </div>
-      </form>
-    </aside>
-  );
-}
-
-export function AskAiExperience() {
-  const topExperienceRef = useRef<HTMLDivElement>(null);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+export function AskAiExperience({
+  fullViewportHero = false,
+  heroBackgroundVideoSrc,
+}: AskAiExperienceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
-
-  useEffect(() => {
-    const updateLauncherVisibility = () => {
-      const topExperience = topExperienceRef.current;
-      if (!topExperience) return;
-      const nextVisible = topExperience.getBoundingClientRect().bottom <= 88;
-      window.dispatchEvent(
-        new CustomEvent("ask-ai:visibility", {
-          detail: { visible: nextVisible },
-        }),
-      );
-    };
-
-    updateLauncherVisibility();
-    window.addEventListener("scroll", updateLauncherVisibility, { passive: true });
-    window.addEventListener("resize", updateLauncherVisibility);
-
-    return () => {
-      window.removeEventListener("scroll", updateLauncherVisibility);
-      window.removeEventListener("resize", updateLauncherVisibility);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleOpenRequest = () => setDrawerOpen(true);
-
-    window.addEventListener("ask-ai:open", handleOpenRequest);
-    return () => window.removeEventListener("ask-ai:open", handleOpenRequest);
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle("ask-ai-docked-open", drawerOpen);
-    window.dispatchEvent(
-      new CustomEvent("ask-ai:open-state", {
-        detail: { open: drawerOpen },
-      }),
-    );
-
-    return () => {
-      document.documentElement.classList.remove("ask-ai-docked-open");
-    };
-  }, [drawerOpen]);
+  const [dockState, setDockState] = useState<DockState>("centered");
 
   const askQuestion = useCallback((question: string) => {
     const trimmed = question.trim();
@@ -300,21 +112,75 @@ export function AskAiExperience() {
       createMessage("user", trimmed),
       createMessage("assistant", answer.content, answer),
     ]);
-    setDrawerOpen(true);
   }, []);
 
+  // Drive the legacy ask-ai:visibility / ask-ai:open-state events the Nav listens to.
+  // - Capsule visible only while there's no conversation yet AND user scrolled past hero.
+  // - Open-state mirrors whether the chat is in docked mode (so Nav can hide the capsule).
+  useEffect(() => {
+    const hasConversation = messages.length > 0;
+
+    const updateCapsule = () => {
+      const visible = !hasConversation && window.scrollY > 280;
+      window.dispatchEvent(
+        new CustomEvent("ask-ai:visibility", { detail: { visible } }),
+      );
+    };
+
+    updateCapsule();
+    window.addEventListener("scroll", updateCapsule, { passive: true });
+    window.addEventListener("resize", updateCapsule);
+    return () => {
+      window.removeEventListener("scroll", updateCapsule);
+      window.removeEventListener("resize", updateCapsule);
+    };
+  }, [messages.length]);
+
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent("ask-ai:open-state", {
+        detail: { open: dockState === "docked" && messages.length > 0 },
+      }),
+    );
+  }, [dockState, messages.length]);
+
+  // Allow the Nav capsule to summon the welcome composer (scroll to top).
+  useEffect(() => {
+    const onOpen = () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+    window.addEventListener("ask-ai:open", onOpen);
+    return () => window.removeEventListener("ask-ai:open", onOpen);
+  }, []);
+
+  const hasConversation = messages.length > 0;
+
+  if (!hasConversation) {
+    return (
+      <div className={`relative bg-bg ${fullViewportHero ? "-mt-[90px]" : ""}`}>
+        <Hero
+          onAskQuestion={askQuestion}
+          fullViewport={fullViewportHero}
+          backgroundVideoSrc={heroBackgroundVideoSrc}
+        />
+      </div>
+    );
+  }
+
+  // Conversation mode: reserve hero-section height with a placeholder, render the
+  // chat panel fixed-positioned over the top region. The carousel + the rest of the
+  // marketing page sit naturally below the placeholder.
   return (
     <>
-      <div ref={topExperienceRef} className="bg-bg">
-        <Hero onAskQuestion={askQuestion} />
-        <AppCarousel />
-      </div>
-
-      <AskAiDrawer
-        open={drawerOpen}
+      <div
+        aria-hidden
+        className="bg-bg"
+        style={{ minHeight: "calc(100dvh - 40px)" }}
+      />
+      <ChatPanel
         messages={messages}
-        onClose={() => setDrawerOpen(false)}
-        onAsk={askQuestion}
+        onAskQuestion={askQuestion}
+        onDockStateChange={setDockState}
       />
     </>
   );

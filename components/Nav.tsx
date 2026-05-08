@@ -71,6 +71,12 @@ const featuresItems: DropdownItem[] = [
     title: "Deployment",
     description: "One-click cloud deploy with elastic scaling",
   },
+  {
+    href: "/home2.0",
+    icon: SparklesAlt,
+    title: "home2.0",
+    description: "Alternate homepage direction from the Figma concept",
+  },
 ];
 
 const resourcesItems: DropdownItem[] = [
